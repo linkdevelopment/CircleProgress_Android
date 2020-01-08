@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircularProgress">
+        <attr name="showText" format="boolean|reference" />
+
+        <attr name="bgColor" format="color|reference" />
+
+        <attr name="bgStrokeWidth" format="dimension|reference" />
+
+        <attr name="progressColor" format="color|reference" />
+
+        <attr name="progressStrokeWidth" format="dimension|reference" />
+
+        <attr name="android:textColor" />
+
+        <attr name="android:textSize" />
+
+        <attr name="android:layout_margin" />
+
+        <attr name="diameter" format="dimension|reference" />
+
+        <attr name="max" format="integer" />
+    </declare-styleable>
+</resources>
