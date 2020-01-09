@@ -9,13 +9,14 @@
 
         <attr name="progressColor" format="color|reference" />
 
+        <attr name="circlePadding" format="dimension|reference" />
+
         <attr name="progressStrokeWidth" format="dimension|reference" />
 
         <attr name="android:textColor" />
 
         <attr name="android:textSize" />
 
-        <attr name="android:layout_margin" />
 
         <attr name="diameter" format="dimension|reference" />
 

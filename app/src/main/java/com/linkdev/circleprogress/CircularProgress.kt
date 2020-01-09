@@ -1,6 +1,5 @@
 package com.linkdev.circleprogress
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -9,10 +8,11 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
-import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
+import androidx.annotation.IntegerRes
 import androidx.core.content.res.ResourcesCompat
-import java.lang.Exception
+import androidx.core.view.marginLeft
+import androidx.core.view.marginTop
 
 class CircularProgress(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) :
     View(context, attrs, defStyleAttr) {
@@ -20,7 +20,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?, defStyleAttr: In
         const val DEFAULT_TEXT_SIZE = 14f
         const val DEFAULT_DIAMETER = 64f
         const val DEFAULT_STROKE_WIDTH = 4f
-        const val DEFAULT_MARGIN = 5f
+        const val DEFAULT_CIRCLE_PADDING = 5f
         const val MAX = 100
     }
 
@@ -32,6 +32,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?, defStyleAttr: In
 
     private var textColor: Int = 0
 
+
     @DimenRes
     private var bgStrokeWidth: Int = 0
     @DimenRes
@@ -39,32 +40,37 @@ class CircularProgress(context: Context?, attrs: AttributeSet?, defStyleAttr: In
     @DimenRes
     private var textSize: Int = 0
 
+    @IntegerRes
+    private var max: Int = MAX
+    private var progress = 0
+    private var diameter: Float = 0f
+    private var circlePadding: Int = 0
     private val textPaint = Paint()
     private val backGroundPaint = Paint()
     private val progressPaint = Paint()
-    private var diameter: Float = 0f
-    private var margin: Int = 0
-    private var strokeWidth: Float = 0f
+    private var defaultDiameter: Float = 0f
+    private var defaultCirclePadding: Float = 0f
+    private var defaultStrokeWidth: Float = 0f
     private var defaultTextSize: Float = 0f
 
-    private lateinit var textRect: Rect
-    private lateinit var progressRect: RectF
+    private var textRect: Rect? = null
+    private var progressRect: RectF? = null
 
     init {
         val attributes = context?.obtainStyledAttributes(attrs, R.styleable.CircularProgress)
-        diameter = TypedValue.applyDimension(
+        defaultDiameter = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             DEFAULT_DIAMETER,
             resources.displayMetrics
         )
 
-        margin = TypedValue.applyDimension(
+        defaultCirclePadding = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
-            DEFAULT_MARGIN,
+            DEFAULT_CIRCLE_PADDING,
             resources.displayMetrics
-        ).toInt()
+        )
 
-        strokeWidth = TypedValue.applyDimension(
+        defaultStrokeWidth = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             DEFAULT_STROKE_WIDTH,
             resources.displayMetrics
@@ -77,33 +83,41 @@ class CircularProgress(context: Context?, attrs: AttributeSet?, defStyleAttr: In
         )
 
         attributes?.let {
-            showText = attributes.getBoolean(R.styleable.CircularProgress_showText, true)
-            bgColor = attributes.getInt(
+            showText = it.getBoolean(R.styleable.CircularProgress_showText, true)
+            max = it.getInteger(R.styleable.CircularProgress_max, MAX)
+            bgColor = it.getInt(
                 R.styleable.CircularProgress_bgColor, ResourcesCompat.getColor(
                     resources, R.color.gray, null
                 )
             )
             bgStrokeWidth =
-                attributes.getDimensionPixelSize(R.styleable.CircularProgress_bgStrokeWidth, strokeWidth.toInt())
+                it.getDimensionPixelSize(
+                    R.styleable.CircularProgress_bgStrokeWidth,
+                    defaultStrokeWidth.toInt()
+                )
             progressColor =
-                attributes.getColor(
+                it.getColor(
                     R.styleable.CircularProgress_progressColor, ResourcesCompat.getColor(
                         resources, R.color.black, null
                     )
                 )
-            progressStrokeWidth = attributes.getDimensionPixelSize(
+            progressStrokeWidth = it.getDimensionPixelSize(
                 R.styleable.CircularProgress_progressStrokeWidth,
-                strokeWidth.toInt()
+                defaultStrokeWidth.toInt()
             )
-            textColor = attributes.getColor(
+            textColor = it.getColor(
                 R.styleable.CircularProgress_android_textColor, ResourcesCompat.getColor(
                     resources, R.color.black, null
                 )
             )
-            textSize = attributes.getDimensionPixelSize(
+            textSize = it.getDimensionPixelSize(
                 R.styleable.CircularProgress_android_textSize,
                 defaultTextSize.toInt()
             )
+            diameter = it.getDimension(R.styleable.CircularProgress_diameter, defaultDiameter)
+            circlePadding =
+                it.getDimension(R.styleable.CircularProgress_circlePadding, defaultCirclePadding)
+                    .toInt()
         }
 
         textPaint.color = textColor
@@ -129,10 +143,32 @@ class CircularProgress(context: Context?, attrs: AttributeSet?, defStyleAttr: In
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+        if (progressRect == null) {
+            progressRect = RectF(
+                marginLeft.toFloat() + circlePadding
+                , marginTop.toFloat() + circlePadding,
+                (marginLeft + diameter + circlePadding),
+                marginTop + diameter + circlePadding
+            )
+        }
+
+        val centerPoint = diameter / 2 + circlePadding
+        canvas?.drawCircle(centerPoint, centerPoint, diameter / 2, backGroundPaint)
+
+        if (showText) {
+            if (textRect == null) {
+                textRect = Rect()
+                textPaint.getTextBounds("0", 0, 1, textRect)
+                canvas?.drawText("50%", centerPoint, centerPoint , textPaint)
+            }
+
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val size = this.diameter.toInt() + this.margin * 2
+        val size = this.diameter.toInt() + this.circlePadding * 2
         this.setMeasuredDimension(size, size)
     }
+
+
 }
