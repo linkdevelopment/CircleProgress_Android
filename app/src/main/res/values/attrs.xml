@@ -17,7 +17,6 @@
 
         <attr name="android:textSize" />
 
-
         <attr name="diameter" format="dimension|reference" />
 
         <attr name="max" format="integer" />

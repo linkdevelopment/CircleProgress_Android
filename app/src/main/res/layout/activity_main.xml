@@ -9,12 +9,16 @@
 
 
     <com.linkdev.circleprogress.CircularProgress
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:showText="true"
+        android:id="@+id/progress_circular"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="15dp"
         android:textColor="#0000ff"
-        app:bgColor="#ff0000"
+        app:bgColor="#00ff00"
         app:bgStrokeWidth="1dp"
-        app:diameter="50dp" />
+        app:circlePadding="10dp"
+        app:progressColor="#FF0000"
+        app:progressStrokeWidth="2dp"
+        app:showText="true" />
 
 </LinearLayout>
