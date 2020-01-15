@@ -3,22 +3,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
 
     <com.linkdev.circleprogress.CircularProgress
         android:id="@+id/progress_circular"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="15dp"
+        android:layout_width="164dp"
+        android:layout_height="164dp"
+        android:layout_gravity="center_horizontal"
+        android:text=""
         android:textColor="#0000ff"
-        app:bgColor="#00ff00"
-        app:bgStrokeWidth="1dp"
-        app:circlePadding="10dp"
+        app:bgColor="@color/green"
+        app:bgStrokeWidth="4dp"
         app:progressColor="#FF0000"
-        app:progressStrokeWidth="2dp"
-        app:showText="true" />
+        app:progressDirection="WithClockWise"
+        app:progressStrokeWidth="5dp"
+        app:showDecimals="true"
+        app:showPercentage="true"
+        app:showText="true"
+        app:squareCap="false"
+        app:startAngle="Right" />
 
 </LinearLayout>

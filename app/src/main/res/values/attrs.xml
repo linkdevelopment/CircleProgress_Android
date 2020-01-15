@@ -9,7 +9,18 @@
 
         <attr name="progressColor" format="color|reference" />
 
-        <attr name="circlePadding" format="dimension|reference" />
+        <attr name="startAngle" format="enum">
+            <enum name="Right" value="0" />
+            <enum name="Bottom" value="90" />
+            <enum name="left" value="180" />
+            <enum name="top" value="270" />
+        </attr>
+        <attr name="progressDirection" format="enum">
+            <enum name="WithClockWise" value="1" />
+            <enum name="AntiClockWise" value="-1" />
+        </attr>
+
+        <attr name="squareCap" format="boolean|reference" />
 
         <attr name="progressStrokeWidth" format="dimension|reference" />
 
@@ -17,8 +28,13 @@
 
         <attr name="android:textSize" />
 
-        <attr name="diameter" format="dimension|reference" />
+        <attr name="android:text" />
 
-        <attr name="max" format="integer" />
+        <attr name="max" format="integer|reference" />
+
+        <attr name="showDecimals" format="boolean|reference" />
+
+        <attr name="showPercentage" format="boolean|reference" />
+
     </declare-styleable>
 </resources>

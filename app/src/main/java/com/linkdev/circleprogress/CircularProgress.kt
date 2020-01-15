@@ -10,16 +10,12 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.DimenRes
-import androidx.annotation.IntegerRes
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.marginLeft
-import androidx.core.view.marginTop
 
 class CircularProgress(context: Context?, attrs: AttributeSet?) :
     View(context, attrs) {
     companion object {
         const val DEFAULT_TEXT_SIZE = 14f
-        const val DEFAULT_DIAMETER = 64f
         const val DEFAULT_STROKE_WIDTH = 4f
         const val DEFAULT_CIRCLE_PADDING = 5f
         const val MAX = 100
@@ -41,7 +37,6 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     @DimenRes
     private var textSize: Int = 0
 
-    @IntegerRes
     private var max: Int = MAX
     private var progress = 0f
     private var diameter: Float = 0f
@@ -49,10 +44,16 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     private val textPaint = TextPaint()
     private val backGroundPaint = Paint()
     private val progressPaint = Paint()
-    private var defaultDiameter: Float = 0f
     private var defaultCirclePadding: Float = 0f
     private var defaultStrokeWidth: Float = 0f
     private var defaultTextSize: Float = 0f
+    private var startAngle: Float = 0f
+    private var progressDirection: Float = 1f
+    private var squareCap: Boolean = false
+    private var showDecimals: Boolean = false
+    private var showPercentage: Boolean = true
+
+    private var text: String? = ""
 
     private val textRect by lazy { Rect() }
     private var progressRect: RectF? = null
@@ -60,11 +61,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     init {
 
         val attributes = context?.obtainStyledAttributes(attrs, R.styleable.CircularProgress)
-        defaultDiameter = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            DEFAULT_DIAMETER,
-            resources.displayMetrics
-        )
+
 
         defaultCirclePadding = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
@@ -84,8 +81,12 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
             resources.displayMetrics
         )
 
+
         attributes?.let {
             showText = it.getBoolean(R.styleable.CircularProgress_showText, true)
+            startAngle = it.getInt(R.styleable.CircularProgress_startAngle, 0).toFloat()
+            progressDirection =
+                it.getInt(R.styleable.CircularProgress_progressDirection, 1).toFloat()
             max = it.getInteger(R.styleable.CircularProgress_max, MAX)
             bgColor = it.getInt(
                 R.styleable.CircularProgress_bgColor, ResourcesCompat.getColor(
@@ -116,11 +117,19 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
                 R.styleable.CircularProgress_android_textSize,
                 defaultTextSize.toInt()
             )
-            diameter = it.getDimension(R.styleable.CircularProgress_diameter, defaultDiameter)
-            circlePadding =
-                it.getDimension(R.styleable.CircularProgress_circlePadding, defaultCirclePadding)
-                    .toInt()
+
+            squareCap = it.getBoolean(R.styleable.CircularProgress_squareCap, false)
+
+            showDecimals = it.getBoolean(R.styleable.CircularProgress_showDecimals, false)
+
+            showPercentage = it.getBoolean(R.styleable.CircularProgress_showPercentage, true)
+
+            text = it.getString(R.styleable.CircularProgress_android_text)
         }
+
+        circlePadding =
+            defaultCirclePadding
+                .toInt()
 
         textPaint.color = textColor
         textPaint.isAntiAlias = true
@@ -136,7 +145,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         progressPaint.color = progressColor
         progressPaint.isAntiAlias = true
         progressPaint.style = Paint.Style.STROKE
-        progressPaint.strokeCap = Paint.Cap.ROUND
+        progressPaint.strokeCap = if (squareCap) Paint.Cap.SQUARE else Paint.Cap.ROUND
         progressPaint.strokeWidth = progressStrokeWidth.toFloat()
         progressRect = RectF()
 
@@ -147,24 +156,24 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         progressRect?.set(
-            circlePadding.toFloat()
-            , circlePadding.toFloat(),
-            width.toFloat().minus(circlePadding),
-            height.toFloat().minus(circlePadding)
+            circlePadding.toFloat() + paddingLeft
+            , circlePadding.toFloat() + paddingTop,
+            width.toFloat().minus(circlePadding + paddingRight),
+            height.toFloat().minus(circlePadding + paddingBottom)
         )
 
-        val radius = (width.toFloat().minus(circlePadding*2)).div(2)
-        val centerPoint = radius  + circlePadding
+        val radius = (width.toFloat().minus(circlePadding * 2)).div(2)
+        val centerPoint = radius + circlePadding
         canvas?.drawCircle(centerPoint, centerPoint, radius, backGroundPaint)
         canvas?.drawArc(
-            progressRect!!, 0f, (75f / max) * 360, false,
+            progressRect!!, startAngle, (progress / max) * (360 * progressDirection), false,
             progressPaint
         )
         if (showText) {
 
             textPaint.getTextBounds("0", 0, 1, textRect)
             canvas?.drawText(
-                "${progress.toInt()}%",
+                getText(),
                 centerPoint,
                 centerPoint + (textRect.height() shr 1),
                 textPaint
@@ -174,15 +183,80 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
 
     }
 
+    private fun getText(): String {
+
+        if (!text.isNullOrEmpty())
+            return text!!
+        val format: String =
+            if (showPercentage) {
+                "%s%%"
+            } else
+                "%s"
+        return if (showDecimals) {
+            String.format(format, progress.toString())
+        } else
+            String.format(format, progress.toInt().toString())
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val size = this.diameter.toInt() + this.circlePadding * 2
         this.setMeasuredDimension(widthMeasureSpec, heightMeasureSpec)
     }
 
-    fun setProgress(mProgress: Float) {
-        progress = mProgress
-        invalidate()
+    fun setShowText(mShowText: Boolean) {
+        showText = mShowText
+        postInvalidate()
     }
 
+    fun setProgress(mProgress: Float) {
+        progress = mProgress
+        if (mProgress > max) {
+            progress = progress.rem(max)
+        }
+        postInvalidate()
+    }
+
+    fun setBgColor(mBgColor: Int) {
+        bgColor = mBgColor
+        postInvalidate()
+    }
+
+    fun setBgStrokeWidth(mBgStrokeWidth: Int) {
+        bgStrokeWidth = mBgStrokeWidth
+        postInvalidate()
+    }
+
+    fun setProgressColor(mProgressColor: Int) {
+        progressColor = mProgressColor
+        postInvalidate()
+    }
+
+    fun setProgressStrokeWidth(mProgressStrokeWidth: Int) {
+        progressStrokeWidth = mProgressStrokeWidth
+        postInvalidate()
+    }
+
+    fun setTextColor(mTextColor: Int) {
+        textColor = mTextColor
+        postInvalidate()
+    }
+
+    fun setTextSize(mTextSize: Int) {
+        textSize = mTextSize
+        postInvalidate()
+    }
+
+    fun setMax(mMax: Int) {
+        if (mMax > 0) {
+            max = mMax
+        }
+        postInvalidate()
+    }
+
+    fun setSquareCap(mSquareCap: Boolean) {
+        squareCap = mSquareCap
+        progressPaint.strokeCap = if (squareCap) Paint.Cap.SQUARE else Paint.Cap.ROUND
+        postInvalidate()
+    }
 
 }
