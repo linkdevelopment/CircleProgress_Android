@@ -10,7 +10,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        progress_circular.setProgress(75f)
+        submit.setOnClickListener { onSubmitClick() }
 
+    }
+
+    private fun onSubmitClick() {
+        progress_circular.setProgress(edtProgress.text.toString().toFloat())
     }
 }

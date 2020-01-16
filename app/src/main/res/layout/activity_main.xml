@@ -10,20 +10,31 @@
 
     <com.linkdev.circleprogress.CircularProgress
         android:id="@+id/progress_circular"
-        android:layout_width="164dp"
-        android:layout_height="164dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text=""
         android:textColor="#0000ff"
         app:bgColor="@color/green"
-        app:bgStrokeWidth="4dp"
+        app:bgStrokeWidth="5dp"
+        app:circleBg="#90ff00ff"
         app:progressColor="#FF0000"
         app:progressDirection="WithClockWise"
-        app:progressStrokeWidth="5dp"
+        app:progressStrokeWidth="9dp"
         app:showDecimals="true"
         app:showPercentage="true"
         app:showText="true"
         app:squareCap="false"
         app:startAngle="Right" />
+
+    <EditText
+        android:id="@+id/edtProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

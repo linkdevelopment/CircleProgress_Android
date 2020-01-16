@@ -36,5 +36,7 @@
 
         <attr name="showPercentage" format="boolean|reference" />
 
+        <attr name="circleBg" format="color|reference" />
+
     </declare-styleable>
 </resources>
