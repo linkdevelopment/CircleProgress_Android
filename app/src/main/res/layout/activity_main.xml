@@ -16,16 +16,18 @@
         android:text=""
         android:textColor="#0000ff"
         app:bgColor="@color/green"
-        app:bgStrokeWidth="5dp"
-        app:circleBg="#90ff00ff"
+        app:bgStrokeWidth="1dp"
+        app:circleBg="#07000000"
+        app:max="500"
+        app:progress="55"
         app:progressColor="#FF0000"
-        app:progressDirection="WithClockWise"
-        app:progressStrokeWidth="9dp"
-        app:showDecimals="true"
-        app:showPercentage="true"
+        app:progressDirection="AntiClockWise"
+        app:progressStrokeWidth="5dp"
+        app:showDecimals="false"
+        app:showPercentage="false"
         app:showText="true"
         app:squareCap="false"
-        app:startAngle="Right" />
+        app:startAngle="top" />
 
     <EditText
         android:id="@+id/edtProgress"

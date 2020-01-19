@@ -2,11 +2,13 @@ package com.linkdev.circleprogress
 
 import android.content.Context
 import android.graphics.*
+import android.os.Build
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.DimenRes
+import androidx.annotation.FontRes
 import androidx.core.content.res.ResourcesCompat
 import kotlin.math.abs
 import kotlin.math.max
@@ -39,7 +41,6 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
 
     private var max: Int = MAX
     private var progress = 0f
-    private var diameter: Float = 0f
     private var circlePadding: Int = 0
 
     private var defaultCirclePadding: Float = 0f
@@ -51,6 +52,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     private var showDecimals: Boolean = false
     private var showPercentage: Boolean = true
     private var circleBg: Int = Color.TRANSPARENT
+    private var textFont: Typeface? = Typeface.DEFAULT
 
     private var text: String? = ""
 
@@ -93,7 +95,8 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
             startAngle = it.getInt(R.styleable.CircularProgress_startAngle, 0).toFloat()
             progressDirection =
                 it.getInt(R.styleable.CircularProgress_progressDirection, 1).toFloat()
-            max = it.getInteger(R.styleable.CircularProgress_max, MAX)
+            setMax(it.getInteger(R.styleable.CircularProgress_max, MAX))
+            setProgress(it.getFloat(R.styleable.CircularProgress_progress, 0f))
             bgColor = it.getInt(
                 R.styleable.CircularProgress_bgColor, ResourcesCompat.getColor(
                     resources, R.color.gray, null
@@ -137,12 +140,15 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
                     resources, R.color.transparent, null
                 )
             )
+
         }
 
         circlePadding =
             defaultCirclePadding
                 .toInt()
 
+
+        textPaint.typeface = textFont
         textPaint.color = textColor
         textPaint.isAntiAlias = true
         textPaint.style = Paint.Style.FILL
@@ -167,11 +173,16 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         attributes?.recycle()
     }
 
+    fun setTextFont(@FontRes font: Int) {
+        textFont = ResourcesCompat.getFont(context, font)
+        textPaint.typeface = textFont
+        postInvalidate()
+    }
+
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         val maxStroke = max(bgStrokeWidth, progressStrokeWidth)
-        val delta = bgStrokeWidth
         progressRect.set(
             circlePadding.toFloat() + paddingLeft + (maxStroke / 2)
             , circlePadding.toFloat() + paddingTop + (maxStroke / 2),
@@ -180,21 +191,15 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         )
 
         bgStrokeRect.set(
-            circlePadding.toFloat() + paddingLeft + (maxStroke / 2),
-            circlePadding.toFloat() + paddingTop + (maxStroke / 2),
-            width.toFloat().minus(circlePadding + paddingRight + (maxStroke / 2)),
-            height.toFloat().minus(circlePadding + paddingBottom + (maxStroke / 2))
+            progressRect
         )
+
         circleBgRect.set(
-            circlePadding.toFloat() + paddingLeft + delta,
-            circlePadding.toFloat() + paddingTop + bgStrokeWidth.toFloat(),
-            width.toFloat().minus(circlePadding + paddingRight + delta),
-            height.toFloat().minus(circlePadding + paddingBottom + bgStrokeWidth)
+            progressRect.left + (bgStrokeWidth / 2),
+            progressRect.top + (bgStrokeWidth / 2),
+            width.toFloat().minus(circlePadding + paddingRight + (maxStroke / 2) + (bgStrokeWidth / 2)),
+            height.toFloat().minus(circlePadding + paddingBottom + (maxStroke / 2) + (bgStrokeWidth / 2))
         )
-
-        val radius = (width.toFloat().minus(circlePadding * 2)).div(2)
-
-        val centerPoint = radius + circlePadding
 
         canvas?.drawOval(
             bgStrokeRect, backGroundPaint
@@ -206,19 +211,24 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
 
 
         canvas?.drawArc(
-            progressRect, startAngle, (50f / max) * (360 * progressDirection), false,
+            progressRect, startAngle, (progress / max) * (360 * progressDirection), false,
             progressPaint
         )
-        if (showText) {
 
+        canvas?.drawLine(circleBgRect.left,circleBgRect.top,circleBgRect.right,circleBgRect.top,backGroundPaint)
+        canvas?.drawLine(circleBgRect.left,circleBgRect.top,circleBgRect.left,circleBgRect.bottom,backGroundPaint)
+        canvas?.drawLine(circleBgRect.right,circleBgRect.top,circleBgRect.right,circleBgRect.bottom,backGroundPaint)
+        canvas?.drawLine(circleBgRect.left,circleBgRect.bottom,circleBgRect.right,circleBgRect.bottom,backGroundPaint)
+
+        if (showText) {
             textPaint.getTextBounds("0", 0, 1, textRect)
+
             canvas?.drawText(
                 getText(),
-                centerPoint,
-                centerPoint + (textRect.height() shr 1),
+                width/2f +(textRect.width() shr 1),
+                height/2f +(textRect.height() shr 1),
                 textPaint
             )
-
         }
 
     }
@@ -234,14 +244,19 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
                 "%s"
         return if (showDecimals) {
             String.format(format, progress.toString())
-        } else
-            String.format(format, progress.toInt().toString())
+        } else {
+            if (progress.minus(progress.toInt()) == 0f) {
+                String.format(format, progress.toInt().toString())
+            } else
+                String.format(format, progress.toString())
+
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 
-        val desiredWidth = 200
-        val desiredHeight = 200
+        val desiredWidth = 275
+        val desiredHeight = 275
 
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
         val widthSize = MeasureSpec.getSize(widthMeasureSpec)
@@ -251,27 +266,27 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         val width: Int
         val height: Int
 
-        //Measure Width
+
         width = when (widthMode) {
-            MeasureSpec.EXACTLY -> //Must be this size
+            MeasureSpec.EXACTLY ->
                 widthSize
-            MeasureSpec.AT_MOST -> //Can't be bigger than...
+            MeasureSpec.AT_MOST ->
                 min(desiredWidth, widthSize)
-            else -> //Be whatever you want
+            else ->
                 desiredWidth
         }
 
-        //Measure Height
+
         height = when (heightMode) {
-            MeasureSpec.EXACTLY -> //Must be this size
+            MeasureSpec.EXACTLY ->
                 heightSize
-            MeasureSpec.AT_MOST -> //Can't be bigger than...
+            MeasureSpec.AT_MOST ->
                 min(desiredHeight, heightSize)
-            else -> //Be whatever you want
+            else ->
                 desiredHeight
         }
 
-        //MUST CALL THIS
+
         setMeasuredDimension(width, height)
     }
 

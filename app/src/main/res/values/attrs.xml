@@ -38,5 +38,8 @@
 
         <attr name="circleBg" format="color|reference" />
 
+        <attr name="progress" format="float|reference" />
+
+
     </declare-styleable>
 </resources>
