@@ -13,14 +13,20 @@ import androidx.core.content.res.ResourcesCompat
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+import android.graphics.SweepGradient
+import android.graphics.Shader
+
 
 class CircularProgress(context: Context?, attrs: AttributeSet?) :
     View(context, attrs) {
     companion object {
-        const val DEFAULT_TEXT_SIZE = 12f
+        const val DEFAULT_TEXT_SIZE = 10f
         const val DEFAULT_STROKE_WIDTH = 4f
         const val DEFAULT_CIRCLE_PADDING = 5f
         const val MAX = 100
+        const val PERCENTAGE_VALUE = "%s%%"
+        const val NON_PERCENTAGE_VALUE = "%s"
+        const val ONE_HUNDRED = 100
     }
 
     private var showText: Boolean = true
@@ -208,50 +214,66 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         canvas?.drawOval(
             circleBgRect, circleBGPaint
         )
-
+        val sweepAngle = (progress / max) * (360 * progressDirection)
 
         canvas?.drawArc(
-            progressRect, startAngle, (progress / max) * (360 * progressDirection), false,
+            progressRect, startAngle, sweepAngle, false,
             progressPaint
         )
 
-        canvas?.drawLine(circleBgRect.left,circleBgRect.top,circleBgRect.right,circleBgRect.top,backGroundPaint)
-        canvas?.drawLine(circleBgRect.left,circleBgRect.top,circleBgRect.left,circleBgRect.bottom,backGroundPaint)
-        canvas?.drawLine(circleBgRect.right,circleBgRect.top,circleBgRect.right,circleBgRect.bottom,backGroundPaint)
-        canvas?.drawLine(circleBgRect.left,circleBgRect.bottom,circleBgRect.right,circleBgRect.bottom,backGroundPaint)
+
 
         if (showText) {
             textPaint.getTextBounds("0", 0, 1, textRect)
 
             canvas?.drawText(
                 getText(),
-                width/2f +(textRect.width() shr 1),
-                height/2f +(textRect.height() shr 1),
+                width / 2f - (textRect.width().div(2)),
+                height / 2f + (textRect.height().div(2)),
                 textPaint
             )
         }
 
     }
 
+
+
+
     private fun getText(): String {
 
         if (!text.isNullOrEmpty())
             return text!!
-        val format: String =
-            if (showPercentage) {
-                "%s%%"
-            } else
-                "%s"
+
         return if (showDecimals) {
-            String.format(format, progress.toString())
+            if (showPercentage)
+                String.format(PERCENTAGE_VALUE, ((progress.div(max)) * ONE_HUNDRED).toString())
+            else
+                String.format(NON_PERCENTAGE_VALUE, progress.toString())
         } else {
             if (progress.minus(progress.toInt()) == 0f) {
-                String.format(format, progress.toInt().toString())
-            } else
-                String.format(format, progress.toString())
-
+                if (showPercentage)
+                    String.format(
+                        PERCENTAGE_VALUE,
+                        ((progress.div(max)) * ONE_HUNDRED).toInt().toString()
+                    )
+                else
+                    String.format(
+                        NON_PERCENTAGE_VALUE,
+                        progress.toInt().toString()
+                    )
+            } else {
+                if (showPercentage)
+                    String.format(PERCENTAGE_VALUE, ((progress.div(max)) * ONE_HUNDRED).toString())
+                else
+                    String.format(
+                        NON_PERCENTAGE_VALUE,
+                        progress.toString()
+                    )
+            }
         }
     }
+
+
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 
