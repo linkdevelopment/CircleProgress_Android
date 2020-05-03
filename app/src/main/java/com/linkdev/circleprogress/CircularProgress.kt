@@ -1,8 +1,8 @@
 package com.linkdev.circleprogress
 
 import android.content.Context
+import android.content.res.TypedArray
 import android.graphics.*
-import android.os.Build
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -10,11 +10,8 @@ import android.view.View
 import androidx.annotation.DimenRes
 import androidx.annotation.FontRes
 import androidx.core.content.res.ResourcesCompat
-import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
-import android.graphics.SweepGradient
-import android.graphics.Shader
 
 
 class CircularProgress(context: Context?, attrs: AttributeSet?) :
@@ -77,29 +74,24 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     private val circleBGPaint = Paint()
 
     init {
-
         val attributes = context?.obtainStyledAttributes(attrs, R.styleable.CircularProgress)
 
+        initDefaultValues()
 
-        defaultCirclePadding = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            DEFAULT_CIRCLE_PADDING,
-            resources.displayMetrics
-        )
+        initAttributes(attributes)
 
-        defaultStrokeWidth = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            DEFAULT_STROKE_WIDTH,
-            resources.displayMetrics
-        )
+        initTextPaint()
 
-        defaultTextSize = TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_SP,
-            DEFAULT_TEXT_SIZE,
-            resources.displayMetrics
-        )
+        initBackGroundPaint()
 
+        initCircleBackGroundPaint()
 
+        initProgressPaint()
+
+        attributes?.recycle()
+    }
+
+    private fun initAttributes(attributes: TypedArray?) {
         attributes?.let {
             showText = it.getBoolean(R.styleable.CircularProgress_showText, true)
             startAngle = it.getInt(R.styleable.CircularProgress_startAngle, ZERO).toFloat()
@@ -144,43 +136,65 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
             showPercentage = it.getBoolean(R.styleable.CircularProgress_showPercentage, true)
 
             text = it.getString(R.styleable.CircularProgress_android_text)
-
             circleBg = it.getColor(
                 R.styleable.CircularProgress_circleBg, ResourcesCompat.getColor(
                     resources, R.color.transparent, null
                 )
             )
-
         }
+    }
 
+    private fun initDefaultValues() {
+        defaultCirclePadding = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            DEFAULT_CIRCLE_PADDING,
+            resources.displayMetrics
+        )
+
+        defaultStrokeWidth = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            DEFAULT_STROKE_WIDTH,
+            resources.displayMetrics
+        )
+
+        defaultTextSize = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP,
+            DEFAULT_TEXT_SIZE,
+            resources.displayMetrics
+        )
         circlePadding =
             defaultCirclePadding
                 .toInt()
+    }
 
+    private fun initCircleBackGroundPaint() {
+        circleBGPaint.color = circleBg
+        circleBGPaint.isAntiAlias = true
+        circleBGPaint.style = Paint.Style.FILL
+    }
 
+    private fun initProgressPaint() {
+        progressPaint.color = progressColor
+        progressPaint.isAntiAlias = true
+        progressPaint.style = Paint.Style.STROKE
+        progressPaint.strokeCap = if (squareCap) Paint.Cap.SQUARE else Paint.Cap.ROUND
+        progressPaint.strokeWidth = progressStrokeWidth.toFloat()
+    }
+
+    private fun initBackGroundPaint() {
+        backGroundPaint.color = bgColor
+        backGroundPaint.isAntiAlias = true
+        backGroundPaint.style = Paint.Style.STROKE
+        backGroundPaint.strokeWidth = bgStrokeWidth.toFloat()
+    }
+
+    private fun initTextPaint() {
         textPaint.typeface = textFont
         textPaint.color = textColor
         textPaint.isAntiAlias = true
         textPaint.style = Paint.Style.FILL
         textPaint.textAlign = Paint.Align.CENTER
         textPaint.textSize = textSize.toFloat()
-
-        backGroundPaint.color = bgColor
-        backGroundPaint.isAntiAlias = true
-        backGroundPaint.style = Paint.Style.STROKE
-        backGroundPaint.strokeWidth = bgStrokeWidth.toFloat()
-
-        circleBGPaint.color = circleBg
-        circleBGPaint.isAntiAlias = true
-        circleBGPaint.style = Paint.Style.FILL
-
-        progressPaint.color = progressColor
-        progressPaint.isAntiAlias = true
-        progressPaint.style = Paint.Style.STROKE
-        progressPaint.strokeCap = if (squareCap) Paint.Cap.SQUARE else Paint.Cap.ROUND
-        progressPaint.strokeWidth = progressStrokeWidth.toFloat()
-
-        attributes?.recycle()
     }
 
     fun setTextFont(@FontRes font: Int) {
@@ -193,43 +207,26 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         val maxStroke = max(bgStrokeWidth, progressStrokeWidth)
-        progressRect.set(
-            circlePadding.toFloat() + paddingLeft + (maxStroke / TWO)
-            , circlePadding.toFloat() + paddingTop + (maxStroke / TWO),
-            width.toFloat().minus(circlePadding + paddingRight + (maxStroke / TWO)),
-            height.toFloat().minus(circlePadding + paddingBottom + (maxStroke / TWO))
-        )
+        setRects(maxStroke)
+        drawRects(canvas)
+    }
 
-        bgStrokeRect.set(
-            progressRect
-        )
+    private fun drawRects(canvas: Canvas?) {
+        drawStroke(canvas)
+        drawCircleBackGround(canvas)
+        drawProgressArc(canvas)
+        drawText(canvas)
+    }
 
-        circleBgRect.set(
-            progressRect.left + (bgStrokeWidth / TWO),
-            progressRect.top + (bgStrokeWidth / TWO),
-            width.toFloat().minus(circlePadding + paddingRight + (maxStroke / TWO) + (bgStrokeWidth / TWO)),
-            height.toFloat().minus(circlePadding + paddingBottom + (maxStroke / TWO) + (bgStrokeWidth / TWO))
-        )
+    private fun setRects(maxStroke: Int) {
+        setProgressRect(maxStroke)
+        setStrokeRect()
+        setCircleBgRect(maxStroke)
+    }
 
-        canvas?.drawOval(
-            bgStrokeRect, backGroundPaint
-        )
-
-        canvas?.drawOval(
-            circleBgRect, circleBGPaint
-        )
-        val sweepAngle = (progress / max) * (FULL_CIRCLE_DEGREES * progressDirection)
-
-        canvas?.drawArc(
-            progressRect, startAngle, sweepAngle, false,
-            progressPaint
-        )
-
-
-
+    private fun drawText(canvas: Canvas?) {
         if (showText) {
             textPaint.getTextBounds("0", ZERO, ONE, textRect)
-
             canvas?.drawText(
                 getText(),
                 width / TWO.toFloat() - (textRect.width().div(TWO)),
@@ -237,7 +234,52 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
                 textPaint
             )
         }
+    }
 
+    private fun drawStroke(canvas: Canvas?) {
+        canvas?.drawOval(
+            bgStrokeRect, backGroundPaint
+        )
+    }
+
+    private fun drawCircleBackGround(canvas: Canvas?) {
+        canvas?.drawOval(
+            circleBgRect, circleBGPaint
+        )
+    }
+
+    private fun drawProgressArc(canvas: Canvas?) {
+        canvas?.drawArc(
+            progressRect, startAngle, getSweepAngle(), false,
+            progressPaint
+        )
+    }
+
+    private fun getSweepAngle(): Float =
+        (progress / max) * (FULL_CIRCLE_DEGREES * progressDirection)
+
+    private fun setCircleBgRect(maxStroke: Int) {
+        circleBgRect.set(
+            progressRect.left + (bgStrokeWidth / TWO),
+            progressRect.top + (bgStrokeWidth / TWO),
+            width.toFloat().minus(circlePadding + paddingRight + (maxStroke / TWO) + (bgStrokeWidth / TWO)),
+            height.toFloat().minus(circlePadding + paddingBottom + (maxStroke / TWO) + (bgStrokeWidth / TWO))
+        )
+    }
+
+    private fun setStrokeRect() {
+        bgStrokeRect.set(
+            progressRect
+        )
+    }
+
+    private fun setProgressRect(maxStroke: Int) {
+        progressRect.set(
+            circlePadding.toFloat() + paddingLeft + (maxStroke / TWO)
+            , circlePadding.toFloat() + paddingTop + (maxStroke / TWO),
+            width.toFloat().minus(circlePadding + paddingRight + (maxStroke / TWO)),
+            height.toFloat().minus(circlePadding + paddingBottom + (maxStroke / TWO))
+        )
     }
 
 
