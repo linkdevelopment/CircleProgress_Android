@@ -12,8 +12,8 @@
         <attr name="startAngle" format="enum">
             <enum name="Right" value="0" />
             <enum name="Bottom" value="90" />
-            <enum name="left" value="180" />
-            <enum name="top" value="270" />
+            <enum name="Left" value="180" />
+            <enum name="Top" value="270" />
         </attr>
         <attr name="progressDirection" format="enum">
             <enum name="WithClockWise" value="1" />

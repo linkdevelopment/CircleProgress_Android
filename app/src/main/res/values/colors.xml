@@ -7,4 +7,7 @@
     <color name="transparent">#00000000</color>
     <color name="gray">#797474</color>
     <color name="green">#00ff00</color>
+    <color name="blue">#0000ff</color>
+    <color name="red">#ff0000</color>
+    <color name="circleBg">#07000000</color>
 </resources>

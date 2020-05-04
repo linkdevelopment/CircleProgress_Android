@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onSubmitClick() {
-        progress_circular.setProgress(edtProgress.text.toString().toFloat())
+        if (edtProgress.text.isNotEmpty())
+            progress_circular.setProgress(edtProgress.text.toString().toFloat())
     }
 }

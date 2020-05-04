@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">CircleProgress</string>
+    <string name="submit">Submit</string>
 
 </resources>

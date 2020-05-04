@@ -13,28 +13,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text=""
-        android:textColor="#0000ff"
+        android:textColor="@color/blue"
         app:bgColor="@color/green"
         app:bgStrokeWidth="1dp"
-        app:circleBg="#07000000"
-        app:max="500"
-        app:progress="55"
-        app:progressColor="#FF0000"
-        app:progressDirection="AntiClockWise"
-        app:progressStrokeWidth="5dp"
-        app:showDecimals="false"
+        app:circleBg="@color/circleBg"
+        app:max="@integer/max"
+        app:progress="@integer/progress"
+        app:progressColor="@color/red"
+        app:progressDirection="WithClockWise"
+        app:progressStrokeWidth="@dimen/stroke_5"
+        app:showDecimals="true"
         app:showPercentage="false"
-        app:showText="true"
-        app:squareCap="false"
-        app:startAngle="top" />
+        app:showText="false"
+        app:squareCap="true"
+        app:startAngle="Top" />
 
     <EditText
+        android:inputType="number"
         android:id="@+id/edtProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
+        android:text="@string/submit"
         android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
