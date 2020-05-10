@@ -9,35 +9,41 @@
 
 
     <com.linkdev.circleprogress.CircularProgress
-        android:id="@+id/progress_circular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/progressCircular"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/blue"
-        app:bgColor="@color/green"
-        app:bgStrokeWidth="1dp"
-        app:circleBg="@color/circleBg"
+        android:layout_marginVertical="@dimen/margin_10"
+        app:textColor="@color/blue"
+        app:outerStrokeColor="@color/green"
+        app:outerStrokeThickness="1dp"
+        app:innerCircleBackground="@color/circleBg"
+        app:textSize="12sp"
         app:max="@integer/max"
+        app:text="progress"
         app:progress="@integer/progress"
-        app:progressColor="@color/red"
+        app:progressStrokeColor="@color/red"
         app:progressDirection="WithClockWise"
-        app:progressStrokeWidth="@dimen/stroke_5"
-        app:showDecimals="true"
-        app:showPercentage="false"
-        app:showText="false"
-        app:squareCap="true"
+        app:progressStrokeThickness="@dimen/stroke_5"
+        app:showDecimals="false"
+        app:textDisplay="ProvidedText"
+        app:progressRounded="false"
         app:startAngle="Top" />
 
     <EditText
-        android:inputType="number"
+        android:hint="@string/progress"
         android:id="@+id/edtProgress"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_20"
+        android:inputType="numberDecimal" />
 
     <Button
-        android:text="@string/submit"
         android:id="@+id/submit"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_10"
+        android:text="@string/submit" />
 
 </LinearLayout>

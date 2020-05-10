@@ -3,4 +3,6 @@
     <integer name="max">500</integer>
     <integer name="progress">55</integer>
     <dimen name="stroke_5">5dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_20">20dp</dimen>
 </resources>

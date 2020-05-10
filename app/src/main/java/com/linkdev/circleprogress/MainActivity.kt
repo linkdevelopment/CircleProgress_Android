@@ -10,13 +10,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        progress_circular.setTextFont(R.font.montserrat_bold)
+        /*
+        free font
+        https://www.1001freefonts.com/designer-typesetit-fontlisting.php
+         */
+        progressCircular.setTextFont(R.font.alex_brush_regular)
         submit.setOnClickListener { onSubmitClick() }
 
     }
 
     private fun onSubmitClick() {
         if (edtProgress.text.isNotEmpty())
-            progress_circular.setProgress(edtProgress.text.toString().toFloat())
+            progressCircular.setProgress(edtProgress.text.toString().toFloat())
     }
 }
