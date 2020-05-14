@@ -2,5 +2,31 @@
     <string name="app_name">CircleProgress</string>
     <string name="submit">Submit</string>
     <string name="progress">Progress</string>
+    <string name="top">Top</string>
+    <string name="right">Right</string>
+    <string name="left">Left</string>
+    <string name="bottom">Bottom</string>
+    <string name="startAngle">Start Angle</string>
+    <string name="progressDirection">Progress Direction</string>
+    <string name="antiClockWise">Anti clock wise</string>
+    <string name="withClockWise">With clock wise</string>
+    <string name="strokeThickness">Stroke thickness</string>
+    <string name="progressThickness">Progress thickness</string>
+    <string name="rounded">Rounded</string>
+    <string name="showDecimal">Show decimal</string>
+    <string name="textDisplay">Text Display</string>
+    <string name="noText">No Text</string>
+    <string name="percentage">Percentage</string>
+    <string name="providedText">provided text</string>
+    <string name="progressColor">Progress Color</string>
+    <string name="red">Red</string>
+    <string name="green">Green</string>
+    <string name="blue">Blue</string>
+    <string name="strokeColor">Stroke color</string>
+    <string name="yellow">Yellow</string>
+    <string name="cyan">Cyan</string>
+    <string name="magneta">Magneta</string>
+    <string name="circleBackGround">Background circle</string>
+    <string name="helloWorld">Hello World</string>
 
 </resources>

@@ -3,11 +3,8 @@
     <declare-styleable name="CircularProgress">
 
         <attr name="outerStrokeColor" format="color|reference" />
-
         <attr name="outerStrokeThickness" format="dimension|reference" />
-
         <attr name="progressStrokeColor" format="color|reference" />
-
         <attr name="startAngle" format="enum">
             <enum name="Right" value="0" />
             <enum name="Bottom" value="90" />
@@ -18,30 +15,20 @@
             <enum name="WithClockWise" value="1" />
             <enum name="AntiClockWise" value="-1" />
         </attr>
-
         <attr name="textDisplay" format="enum">
             <enum name="NoText" value="0" />
             <enum name="ProvidedText" value="1" />
             <enum name="ProgressValue" value="2" />
             <enum name="ProgressPercentage" value="3" />
         </attr>
-
-        <attr name="progressRounded" format="boolean|reference" />
-
+        <attr name="progressRoundedEnd" format="boolean|reference" />
         <attr name="progressStrokeThickness" format="dimension|reference" />
-
         <attr name="textColor" format="color|reference" />
-
         <attr name="textSize" format="dimension|reference" />
-
         <attr name="text" format="string|reference" />
-
         <attr name="max" format="integer|reference" />
-
-        <attr name="showDecimals" format="boolean|reference" />
-
+        <attr name="showDecimalZero" format="boolean|reference" />
         <attr name="innerCircleBackground" format="color|reference" />
-
         <attr name="progress" format="float|reference" />
 
     </declare-styleable>

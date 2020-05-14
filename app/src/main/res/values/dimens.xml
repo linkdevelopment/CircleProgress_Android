@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="max">500</integer>
-    <integer name="progress">55</integer>
+    <integer name="progress">425</integer>
     <dimen name="stroke_5">5dp</dimen>
     <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_5">5dp</dimen>
     <dimen name="margin_20">20dp</dimen>
+    <dimen name="fontSmall">12sp</dimen>
+    <integer name="maxThick">10</integer>
+    <integer name="minThick">1</integer>
 </resources>

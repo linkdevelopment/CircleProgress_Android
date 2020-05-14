@@ -5,45 +5,310 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="@dimen/margin_10"
     tools:context=".MainActivity">
 
 
     <com.linkdev.circleprogress.CircularProgress
         android:id="@+id/progressCircular"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginVertical="@dimen/margin_10"
-        app:textColor="@color/blue"
-        app:outerStrokeColor="@color/green"
-        app:outerStrokeThickness="1dp"
-        app:innerCircleBackground="@color/circleBg"
-        app:textSize="12sp"
-        app:max="@integer/max"
-        app:text="progress"
-        app:progress="@integer/progress"
-        app:progressStrokeColor="@color/red"
-        app:progressDirection="WithClockWise"
-        app:progressStrokeThickness="@dimen/stroke_5"
-        app:showDecimals="false"
-        app:textDisplay="ProvidedText"
-        app:progressRounded="false"
-        app:startAngle="Top" />
-
-    <EditText
-        android:hint="@string/progress"
-        android:id="@+id/edtProgress"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_20"
-        android:inputType="numberDecimal" />
-
-    <Button
-        android:id="@+id/submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/margin_10"
-        android:text="@string/submit" />
+        app:innerCircleBackground="@color/circleBg"
+        app:max="@integer/max"
+        app:outerStrokeColor="@color/gray"
+        app:outerStrokeThickness="1dp"
+        app:progress="@integer/progress"
+        app:text="@string/helloWorld"
+        app:progressDirection="WithClockWise"
+        app:progressRoundedEnd="false"
+        app:progressStrokeColor="@color/red"
+        app:progressStrokeThickness="@dimen/stroke_5"
+        app:showDecimalZero="false"
+        app:startAngle="Top"
+        app:textColor="@color/black"
+        app:textDisplay="ProgressPercentage"
+        app:textSize="@dimen/fontSmall" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        android:text="@string/startAngle" />
+
+                    <RadioGroup
+                        android:id="@+id/rdgrpStartAngle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <RadioButton
+                            android:checked="true"
+                            android:id="@+id/rdbtnTop"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_5"
+                            android:text="@string/top" />
+
+                        <RadioButton
+                            android:id="@+id/rdbtnRight"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_5"
+                            android:text="@string/right" />
+
+                        <RadioButton
+                            android:id="@+id/rdbtnLeft"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_5"
+                            android:text="@string/left" />
+
+                        <RadioButton
+                            android:id="@+id/rdbtnBottom"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_5"
+                            android:text="@string/bottom" />
+                    </RadioGroup>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        android:text="@string/progressDirection" />
+
+                    <RadioGroup
+                        android:id="@+id/rdgrpDirection"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <RadioButton
+                            android:checked="true"
+                            android:id="@+id/rdbtnWithClockWise"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_5"
+                            android:text="@string/withClockWise" />
+
+                        <RadioButton
+                            android:id="@+id/rdbtnAntiClokWise"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_5"
+                            android:text="@string/antiClockWise" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:text="@string/strokeThickness" />
+
+            <SeekBar
+                android:progress="1"
+                android:id="@+id/sbStokeThickness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:max="@integer/maxThick"
+                android:min="@integer/minThick" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:text="@string/progressThickness" />
+
+            <SeekBar
+                android:progress="5"
+                android:id="@+id/sbProgressThickness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:max="@integer/maxThick"
+                android:min="@integer/minThick" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/chkRounded"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:layout_weight="1"
+                    android:text="@string/rounded" />
+
+                <CheckBox
+                    android:id="@+id/chkShowDecimal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:layout_weight="1"
+                    android:text="@string/showDecimal" />
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:text="@string/textDisplay" />
+
+            <RadioGroup
+                android:id="@+id/rdgrpTextDisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rdbtnNoText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:text="@string/noText" />
+
+                <RadioButton
+                    android:checked="true"
+                    android:id="@+id/rdbtnPercentage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:text="@string/percentage" />
+
+                <RadioButton
+                    android:id="@+id/rdbtnProgress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:text="@string/progress" />
+
+                <RadioButton
+                    android:id="@+id/rdbtnProvidiedText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:text="@string/providedText" />
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/edtText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:text="@string/progressColor" />
+
+            <RadioGroup
+                android:id="@+id/rdgrpProgressColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rdbtnRed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:text="@string/red" />
+
+                <RadioButton
+                    android:id="@+id/rdbtnGreen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:text="@string/green" />
+
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:text="@string/strokeColor" />
+
+            <RadioGroup
+                android:id="@+id/rdgrpStrokeColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rdbtnYellow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:text="@string/yellow" />
+
+                <RadioButton
+                    android:id="@+id/rdbtnCyan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:text="@string/cyan" />
+
+            </RadioGroup>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:text="@string/circleBackGround" />
+
+            <RadioGroup
+                android:id="@+id/rdgrpBackgroundCircle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rdbtnBlue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:text="@string/blue" />
+
+                <RadioButton
+                    android:id="@+id/rdbtnMagneta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:text="@string/magneta" />
+            </RadioGroup>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>
