@@ -20,7 +20,7 @@
         app:outerStrokeThickness="1dp"
         app:progress="@integer/progress"
         app:text="@string/helloWorld"
-        app:progressDirection="WithClockWise"
+        app:progressDirection="Clockwise"
         app:progressRoundedEnd="false"
         app:progressStrokeColor="@color/red"
         app:progressStrokeThickness="@dimen/stroke_5"

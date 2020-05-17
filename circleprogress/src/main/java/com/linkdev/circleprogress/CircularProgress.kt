@@ -8,10 +8,9 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
-import androidx.annotation.DimenRes
 import androidx.annotation.FontRes
-import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.res.ResourcesCompat
+import com.linkdev.circleprogress.Utilities.sp2px
 import kotlin.math.max
 import kotlin.math.min
 
@@ -39,14 +38,14 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
 
     private var textColor: Int = Color.BLACK
 
-    @DimenRes
+
     private var mOuterStrokeThickness: Int =
         ZERO
-    @DimenRes
+
     private var mProgressStrokeThickness: Int =
         ZERO
 
-    private var textSize: Float =
+    private var mTextSize: Float =
         ZERO.toFloat()
 
     private var max: Int =
@@ -77,7 +76,6 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     private val backGroundPaint = Paint()
     private val progressPaint = Paint()
     private val circleBGPaint = Paint()
-    private val textView = AppCompatTextView(context)
 
     init {
         val attributes = context?.obtainStyledAttributes(attrs, R.styleable.CircularProgress)
@@ -150,7 +148,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
                     resources, R.color.black, null
                 )
             )
-            textSize = it.getDimension(
+            mTextSize = it.getDimension(
                 R.styleable.CircularProgress_textSize,
                 defaultTextSize
             )
@@ -213,9 +211,8 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     private fun initTextPaint() {
-        textPaint.textSize = textSize
+        textPaint.textSize = mTextSize
         textPaint.color = textColor
-        textView.typeface = textFont
         textPaint.isAntiAlias = true
         textPaint.style = Paint.Style.FILL
         textPaint.textAlign = Paint.Align.CENTER
@@ -436,8 +433,8 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         postInvalidate()
     }
 
-    fun setTextSize(mTextSize: Float) {
-        textSize = mTextSize
+    fun setTextSize(textSize: Float) {
+        mTextSize = sp2px(context.resources,textSize)
         postInvalidate()
     }
 
@@ -492,7 +489,7 @@ enum class TextDisplay(val value: Int) {
 }
 
 enum class ProgressDirection(val value: Int) {
-    WITH_CLOCK_WISE(1), ANTI_CLOCK_WISE(-1)
+    CLOCKWISE(1), ANTICLOCKWISE(-1)
 }
 
 enum class StartAngle(val value: Int) {

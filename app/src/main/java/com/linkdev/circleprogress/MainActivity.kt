@@ -180,10 +180,10 @@ class MainActivity : AppCompatActivity() {
     private fun onRdgrpDirectionChecked(checkedId: Int) {
         when (checkedId) {
             R.id.rdbtnWithClockWise -> {
-                progressCircular.setProgressDirection(ProgressDirection.WITH_CLOCK_WISE)
+                progressCircular.setProgressDirection(ProgressDirection.CLOCKWISE)
             }
             R.id.rdbtnAntiClokWise -> {
-                progressCircular.setProgressDirection(ProgressDirection.ANTI_CLOCK_WISE)
+                progressCircular.setProgressDirection(ProgressDirection.ANTICLOCKWISE)
             }
         }
     }

@@ -42,7 +42,7 @@ Usage for all attributes
         app:outerStrokeThickness="1dp"
         app:progress="75"
         app:text="hello world"
-        app:progressDirection="WithClockWise"
+        app:progressDirection="Clockwise"
         app:progressRoundedEnd="false"
         app:progressStrokeColor="#ff0000"
         app:progressStrokeThickness="5dp"
@@ -102,17 +102,17 @@ Progress value is set as float
 ```
 #### Set Progress Direction
 ```xml
- app:progressDirection="WithClockWise"
+ app:progressDirection="Clockwise"
  ```
  ```kotlin
-  progressCircular.setProgressDirection(ProgressDirection.WITH_CLOCK_WISE)
+  progressCircular.setProgressDirection(ProgressDirection.CLOCKWISE)
 ```
  or
 ```xml
-app:progressDirection="AntiClockWise"
+app:progressDirection="Anticlockwise"
 ```
  ```kotlin
-  progressCircular.setProgressDirection(ProgressDirection.ANTI_CLOCK_WISE)
+  progressCircular.setProgressDirection(ProgressDirection.ANTICLOCKWISE)
 ```
 #### Set Progress Rounded End
 ```xml

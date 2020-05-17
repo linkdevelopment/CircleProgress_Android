@@ -12,8 +12,8 @@
             <enum name="Top" value="270" />
         </attr>
         <attr name="progressDirection" format="enum">
-            <enum name="WithClockWise" value="1" />
-            <enum name="AntiClockWise" value="-1" />
+            <enum name="Clockwise" value="1" />
+            <enum name="Anticlockwise" value="-1" />
         </attr>
         <attr name="textDisplay" format="enum">
             <enum name="NoText" value="0" />

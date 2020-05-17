@@ -8,8 +8,8 @@
     <string name="bottom">Bottom</string>
     <string name="startAngle">Start Angle</string>
     <string name="progressDirection">Progress Direction</string>
-    <string name="antiClockWise">Anti clock wise</string>
-    <string name="withClockWise">With clock wise</string>
+    <string name="antiClockWise">Anticlockwise</string>
+    <string name="withClockWise">Clockwise</string>
     <string name="strokeThickness">Stroke thickness</string>
     <string name="progressThickness">Progress thickness</string>
     <string name="rounded">Rounded</string>
