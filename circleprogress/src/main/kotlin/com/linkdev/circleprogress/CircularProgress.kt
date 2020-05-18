@@ -28,7 +28,6 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         const val DEFAULT_DESIRED_SIZE = 275
         const val FULL_CIRCLE_DEGREES = 360
         const val ZERO = 0
-        const val ONE = 1
         const val TWO = 2
     }
 
@@ -54,11 +53,11 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     private var circlePadding: Int =
         ZERO
 
-    private var defaultCirclePadding: Float = ZERO.toFloat()
-    private var defaultStrokeWidth: Float = ZERO.toFloat()
-    private var defaultTextSize: Float = ZERO.toFloat()
+    private var calculatedDefaultCirclePadding: Float = ZERO.toFloat()
+    private var calculatedDefaultStrokeWidth: Float = ZERO.toFloat()
+    private var calculatedDefaultTextSize: Float = ZERO.toFloat()
     private var mStartAngle: Int = ZERO
-    private var mProgressDirection: Int = ONE
+    private var mProgressDirection: Int = ProgressDirection.CLOCKWISE.value
     private var mProgressRoundedEnd: Boolean = false
     private var mShowDecimal: Boolean = false
     private var mInnerCircleBackground: Int = Color.TRANSPARENT
@@ -114,7 +113,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
             mProgressDirection =
                 it.getInt(
                     R.styleable.CircularProgress_progressDirection,
-                    ONE
+                    ProgressDirection.CLOCKWISE.value
                 )
             setMax(
                 it.getInteger(
@@ -131,7 +130,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
             mOuterStrokeThickness =
                 it.getDimensionPixelSize(
                     R.styleable.CircularProgress_outerStrokeThickness,
-                    defaultStrokeWidth.toInt()
+                    calculatedDefaultStrokeWidth.toInt()
                 )
             mProgressStrokeColor =
                 it.getColor(
@@ -141,7 +140,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
                 )
             mProgressStrokeThickness = it.getDimensionPixelSize(
                 R.styleable.CircularProgress_progressStrokeThickness,
-                defaultStrokeWidth.toInt()
+                calculatedDefaultStrokeWidth.toInt()
             )
             textColor = it.getColor(
                 R.styleable.CircularProgress_textColor, ResourcesCompat.getColor(
@@ -150,14 +149,17 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
             )
             mTextSize = it.getDimension(
                 R.styleable.CircularProgress_textSize,
-                defaultTextSize
+                calculatedDefaultTextSize
             )
 
-            mProgressRoundedEnd = it.getBoolean(R.styleable.CircularProgress_progressRoundedEnd, false)
+            mProgressRoundedEnd =
+                it.getBoolean(R.styleable.CircularProgress_progressRoundedEnd, false)
 
             mShowDecimal = it.getBoolean(R.styleable.CircularProgress_showDecimalZero, false)
 
             mText = it.getString(R.styleable.CircularProgress_text)
+            if (!mText.isNullOrEmpty())
+                mTextDisplay = TextDisplay.PROVIDED_TEXT.value
             mInnerCircleBackground = it.getColor(
                 R.styleable.CircularProgress_innerCircleBackground, ResourcesCompat.getColor(
                     resources, R.color.transparent, null
@@ -167,25 +169,25 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     private fun initDefaultValues() {
-        defaultCirclePadding = TypedValue.applyDimension(
+        calculatedDefaultCirclePadding = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             DEFAULT_CIRCLE_PADDING,
             resources.displayMetrics
         )
 
-        defaultStrokeWidth = TypedValue.applyDimension(
+        calculatedDefaultStrokeWidth = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             DEFAULT_STROKE_THICKNESS,
             resources.displayMetrics
         )
 
-        defaultTextSize = TypedValue.applyDimension(
+        calculatedDefaultTextSize = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_SP,
             DEFAULT_TEXT_SIZE,
             resources.displayMetrics
         )
         circlePadding =
-            defaultCirclePadding
+            calculatedDefaultCirclePadding
                 .toInt()
     }
 
@@ -413,7 +415,8 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     fun setOuterStrokeThickness(outerStrokeThickness: Int) {
-        mOuterStrokeThickness = Utilities.dpToPx(context.resources, outerStrokeThickness.toFloat()).toInt()
+        mOuterStrokeThickness =
+            Utilities.dpToPx(context.resources, outerStrokeThickness.toFloat()).toInt()
         postInvalidate()
     }
 
@@ -434,7 +437,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     fun setTextSize(textSize: Float) {
-        mTextSize = sp2px(context.resources,textSize)
+        mTextSize = sp2px(context.resources, textSize)
         postInvalidate()
     }
 
@@ -445,11 +448,11 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         postInvalidate()
     }
 
-    fun setShowDecimalZero(showDecimal:Boolean)
-    {
+    fun setShowDecimalZero(showDecimal: Boolean) {
         mShowDecimal = showDecimal
         postInvalidate()
     }
+
     fun setProgressRoundedEnd(progressRoundedEnd: Boolean) {
         mProgressRoundedEnd = progressRoundedEnd
         postInvalidate()
@@ -474,13 +477,21 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         mStartAngle = startAngle.value
         postInvalidate()
     }
-    fun setText(text:CharSequence?)
-    {
-        mText = if (!text.isNullOrEmpty())
+
+    fun setText(text: CharSequence?) {
+        mText = if (!text.isNullOrEmpty()) {
+            mTextDisplay = TextDisplay.PROVIDED_TEXT.value
             text.toString()
-        else
+        } else
             ""
         postInvalidate()
+    }
+
+    fun getMax() :Int{
+        return max
+    }
+    fun getProgress() :Float{
+        return progress
     }
 }
 

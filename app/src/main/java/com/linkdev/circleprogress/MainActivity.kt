@@ -1,24 +1,30 @@
 package com.linkdev.circleprogress
 
+
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.SeekBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import kotlinx.android.synthetic.main.activity_main.*
 
+
 class MainActivity : AppCompatActivity() {
 
+    private var max: Int = 0
+    private var progress: Float = 0f
+    val handler: Handler = Handler()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
         progressCircular.setTextFont(R.font.alex_brush_regular)
-
+        btnAnimate.setOnClickListener { onAnimateClick() }
 
         rdgrpStartAngle.setOnCheckedChangeListener { group, checkedId ->
             onRdgrpStartAngleChecked(
@@ -70,6 +76,24 @@ class MainActivity : AppCompatActivity() {
         progressCircular.setTextFont(R.font.alex_brush_regular)
 
     }
+
+    private fun onAnimateClick() {
+        max = animatedProgressCircular.getMax()
+        handler.postDelayed(runnable,0)
+    }
+
+    private val runnable: Runnable = object : Runnable {
+        override fun run() {
+            if (progress in 0.0..max.toDouble()) {
+                progress++
+                animatedProgressCircular.setProgress(progress)
+            }else
+                handler.removeCallbacks(this)
+
+            handler.postDelayed(this, 200L)
+        }
+    }
+
     private var edtTextWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 

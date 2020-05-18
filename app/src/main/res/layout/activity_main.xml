@@ -27,7 +27,6 @@
         app:showDecimalZero="false"
         app:startAngle="Top"
         app:textColor="@color/black"
-        app:textDisplay="ProgressPercentage"
         app:textSize="@dimen/fontSmall" />
 
     <ScrollView
@@ -308,6 +307,38 @@
                     android:layout_marginBottom="@dimen/margin_5"
                     android:text="@string/magneta" />
             </RadioGroup>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.linkdev.circleprogress.CircularProgress
+                    android:id="@+id/animatedProgressCircular"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"
+                    app:innerCircleBackground="@color/circleBg"
+                    app:max="@integer/max_100"
+                    app:outerStrokeColor="@color/gray"
+                    app:outerStrokeThickness="1dp"
+                    app:progressDirection="Clockwise"
+                    app:progressRoundedEnd="true"
+                    app:progressStrokeColor="@color/red"
+                    app:progressStrokeThickness="@dimen/stroke_5"
+                    app:showDecimalZero="false"
+                    app:startAngle="Top"
+                    app:textColor="@color/black"
+                    app:textDisplay="ProgressValue"
+                    app:textSize="@dimen/fontSmall" />
+
+                <Button
+                    android:textAllCaps="false"
+                    android:id="@+id/btnAnimate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/startAnimation" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

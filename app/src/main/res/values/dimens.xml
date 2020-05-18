@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="max">500</integer>
+    <integer name="max_100">100</integer>
     <integer name="progress">425</integer>
     <dimen name="stroke_5">5dp</dimen>
     <dimen name="margin_10">10dp</dimen>

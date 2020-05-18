@@ -28,5 +28,6 @@
     <string name="magneta">Magneta</string>
     <string name="circleBackGround">Background circle</string>
     <string name="helloWorld">Hello World</string>
+    <string name="startAnimation">Start Animation</string>
 
 </resources>

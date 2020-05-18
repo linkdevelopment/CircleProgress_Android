@@ -53,6 +53,7 @@ Usage for all attributes
         app:textSize="12sp" />
 ```
 ![](images/circle_progress.gif)
+![](images/animated_circle_progress.gif)
 
 #### Set Max
 ```xml
