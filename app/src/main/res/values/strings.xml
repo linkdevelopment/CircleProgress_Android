@@ -29,5 +29,7 @@
     <string name="circleBackGround">Background circle</string>
     <string name="helloWorld">Hello World</string>
     <string name="startAnimation">Start Animation</string>
+    <string name="max">Max</string>
+    <string name="textSize">Text Size</string>
 
 </resources>

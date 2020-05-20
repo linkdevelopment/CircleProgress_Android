@@ -10,4 +10,11 @@
     <dimen name="fontSmall">12sp</dimen>
     <integer name="maxThick">10</integer>
     <integer name="minThick">1</integer>
+    <integer name="minFont">10</integer>
+    <integer name="maxFont">24</integer>
+    <dimen name="fontLarge">20sp</dimen>
+    <dimen name="circle_width">150dp</dimen>
+    <dimen name="circle_height">150dp</dimen>
+    <dimen name="fontMedium">16sp</dimen>
+    <dimen name="margin_15">15dp</dimen>
 </resources>

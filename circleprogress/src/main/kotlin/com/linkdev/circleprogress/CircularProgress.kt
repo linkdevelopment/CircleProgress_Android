@@ -47,9 +47,9 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     private var mTextSize: Float =
         ZERO.toFloat()
 
-    private var max: Int =
+    private var mMax: Int =
         DEFAULT_MAX
-    private var progress: Float = ZERO.toFloat()
+    private var mProgress: Float = ZERO.toFloat()
     private var circlePadding: Int =
         ZERO
 
@@ -105,23 +105,26 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
 
     private fun initAttributes(attributes: TypedArray?) {
         attributes?.let {
-            mTextDisplay = it.getInt(R.styleable.CircularProgress_textDisplay, ZERO)
+            mTextDisplay = it.getInt(
+                R.styleable.CircularProgress_textDisplay,
+                TextDisplay.PROGRESS_PERCENTAGE.value
+            )
             mStartAngle = it.getInt(
                 R.styleable.CircularProgress_startAngle,
-                ZERO
+                StartAngle.TOP.value
             )
             mProgressDirection =
                 it.getInt(
                     R.styleable.CircularProgress_progressDirection,
                     ProgressDirection.CLOCKWISE.value
                 )
-            setMax(
+            setMaxValue(
                 it.getInteger(
                     R.styleable.CircularProgress_max,
                     DEFAULT_MAX
                 )
             )
-            setProgress(it.getFloat(R.styleable.CircularProgress_progress, ZERO.toFloat()))
+            setProgressValue(it.getFloat(R.styleable.CircularProgress_progress, ZERO.toFloat()))
             mOuterStrokeColor = it.getInt(
                 R.styleable.CircularProgress_outerStrokeColor, ResourcesCompat.getColor(
                     resources, R.color.gray, null
@@ -218,7 +221,6 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         textPaint.isAntiAlias = true
         textPaint.style = Paint.Style.FILL
         textPaint.textAlign = Paint.Align.CENTER
-        textPaint.isLinearText = true
     }
 
     fun setTextFont(@FontRes font: Int) {
@@ -282,7 +284,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     private fun getSweepAngle(): Float =
-        (progress / max) * (FULL_CIRCLE_DEGREES * mProgressDirection.toFloat())
+        (mProgress / mMax) * (FULL_CIRCLE_DEGREES * mProgressDirection.toFloat())
 
     private fun setCircleBgRect(maxStroke: Int) {
         circleBgRect.set(
@@ -323,34 +325,37 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
             }
             TextDisplay.PROGRESS_VALUE.value -> {
                 if (mShowDecimal) {
-                    String.format(NON_PERCENTAGE_VALUE, progress.toString())
+                    String.format(NON_PERCENTAGE_VALUE, mProgress.toString())
                 } else {
-                    if (progress.minus(progress.toInt()) == ZERO.toFloat()) {
+                    if (mProgress.minus(mProgress.toInt()) == ZERO.toFloat()) {
                         String.format(
                             NON_PERCENTAGE_VALUE,
-                            progress.toInt().toString()
+                            mProgress.toInt().toString()
                         )
                     } else {
                         String.format(
                             NON_PERCENTAGE_VALUE,
-                            progress.toString()
+                            mProgress.toString()
                         )
                     }
                 }
             }
             TextDisplay.PROGRESS_PERCENTAGE.value -> {
                 if (mShowDecimal)
-                    String.format(PERCENTAGE_VALUE, ((progress.div(max)) * ONE_HUNDRED).toString())
+                    String.format(
+                        PERCENTAGE_VALUE,
+                        ((mProgress.div(mMax)) * ONE_HUNDRED).toString()
+                    )
                 else {
-                    if (progress.minus(progress.toInt()) == ZERO.toFloat()) {
+                    if (mProgress.minus(mProgress.toInt()) == ZERO.toFloat()) {
                         String.format(
                             PERCENTAGE_VALUE,
-                            ((progress.div(max)) * ONE_HUNDRED).toInt().toString()
+                            ((mProgress.div(mMax)) * ONE_HUNDRED).toInt().toString()
                         )
                     } else {
                         String.format(
                             PERCENTAGE_VALUE,
-                            ((progress.div(max)) * ONE_HUNDRED).toString()
+                            ((mProgress.div(mMax)) * ONE_HUNDRED).toString()
                         )
                     }
                 }
@@ -401,11 +406,18 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         setMeasuredDimension(width, height)
     }
 
-    fun setProgress(mProgress: Float) {
-        progress = mProgress
-        if (mProgress > max) {
-            progress = max.toFloat()
+    private fun setProgressValue(progress: Float?) {
+        if (progress != null)
+            mProgress = progress
+        else
+            mProgress = 0f
+        if (mProgress > mMax) {
+            mProgress = mMax.toFloat()
         }
+    }
+
+    fun setProgress(progress: Float?) {
+        setProgressValue(progress)
         postInvalidate()
     }
 
@@ -441,10 +453,17 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         postInvalidate()
     }
 
-    fun setMax(mMax: Int) {
-        if (mMax > ZERO) {
-            max = mMax
-        }
+    private fun setMaxValue(max: Int?) {
+        if (max != null) {
+            if (max > ZERO) {
+                mMax = max
+            }
+        } else
+            mMax = 0
+    }
+
+    fun setMax(max: Int?) {
+        setMaxValue(max)
         postInvalidate()
     }
 
@@ -487,11 +506,12 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         postInvalidate()
     }
 
-    fun getMax() :Int{
-        return max
+    fun getMax(): Int {
+        return mMax
     }
-    fun getProgress() :Float{
-        return progress
+
+    fun getProgress(): Float {
+        return mProgress
     }
 }
 

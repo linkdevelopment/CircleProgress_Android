@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="title_text" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/fontLarge</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 
 </resources>

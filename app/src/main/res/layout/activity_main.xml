@@ -5,40 +5,59 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/margin_10"
+    android:padding="@dimen/margin_15"
     tools:context=".MainActivity">
 
 
     <com.linkdev.circleprogress.CircularProgress
         android:id="@+id/progressCircular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/circle_width"
+        android:layout_height="@dimen/circle_height"
         android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="@dimen/margin_20"
         app:innerCircleBackground="@color/circleBg"
         app:max="@integer/max"
         app:outerStrokeColor="@color/gray"
         app:outerStrokeThickness="1dp"
         app:progress="@integer/progress"
-        app:text="@string/helloWorld"
         app:progressDirection="Clockwise"
         app:progressRoundedEnd="false"
         app:progressStrokeColor="@color/red"
         app:progressStrokeThickness="@dimen/stroke_5"
         app:showDecimalZero="false"
         app:startAngle="Top"
+        app:text="hello\nworld"
         app:textColor="@color/black"
-        app:textSize="@dimen/fontSmall" />
+        app:textSize="@dimen/fontMedium" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_20">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <EditText
+                android:id="@+id/edtMax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:hint="@string/max"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/edtProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:hint="@string/progress"
+                android:inputType="numberDecimal" />
+
             <LinearLayout
+                android:layout_marginBottom="@dimen/margin_15"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -50,45 +69,16 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/title_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/margin_10"
                         android:text="@string/startAngle" />
 
-                    <RadioGroup
-                        android:id="@+id/rdgrpStartAngle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <RadioButton
-                            android:checked="true"
-                            android:id="@+id/rdbtnTop"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/margin_5"
-                            android:text="@string/top" />
-
-                        <RadioButton
-                            android:id="@+id/rdbtnRight"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/margin_5"
-                            android:text="@string/right" />
-
-                        <RadioButton
-                            android:id="@+id/rdbtnLeft"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/margin_5"
-                            android:text="@string/left" />
-
-                        <RadioButton
-                            android:id="@+id/rdbtnBottom"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/margin_5"
-                            android:text="@string/bottom" />
-                    </RadioGroup>
+                    <Spinner
+                        android:id="@+id/spStartAngle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -98,64 +88,51 @@
                     android:orientation="vertical">
 
                     <TextView
+                        style="@style/title_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/margin_10"
                         android:text="@string/progressDirection" />
 
-                    <RadioGroup
-                        android:id="@+id/rdgrpDirection"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <RadioButton
-                            android:checked="true"
-                            android:id="@+id/rdbtnWithClockWise"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/margin_5"
-                            android:text="@string/withClockWise" />
-
-                        <RadioButton
-                            android:id="@+id/rdbtnAntiClokWise"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/margin_5"
-                            android:text="@string/antiClockWise" />
-                    </RadioGroup>
+                    <Spinner
+                        android:id="@+id/spDirection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
                 </LinearLayout>
             </LinearLayout>
 
 
             <TextView
+                style="@style/title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10"
                 android:text="@string/strokeThickness" />
 
             <SeekBar
-                android:progress="1"
                 android:id="@+id/sbStokeThickness"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10"
                 android:max="@integer/maxThick"
-                android:min="@integer/minThick" />
+                android:min="@integer/minThick"
+                android:progress="1" />
 
             <TextView
+                style="@style/title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10"
                 android:text="@string/progressThickness" />
 
             <SeekBar
-                android:progress="5"
                 android:id="@+id/sbProgressThickness"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10"
                 android:max="@integer/maxThick"
-                android:min="@integer/minThick" />
+                android:min="@integer/minThick"
+                android:progress="5" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -180,6 +157,7 @@
 
 
             <TextView
+                style="@style/title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10"
@@ -198,11 +176,11 @@
                     android:text="@string/noText" />
 
                 <RadioButton
-                    android:checked="true"
                     android:id="@+id/rdbtnPercentage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_5"
+                    android:checked="true"
                     android:text="@string/percentage" />
 
                 <RadioButton
@@ -220,6 +198,22 @@
                     android:text="@string/providedText" />
             </RadioGroup>
 
+            <TextView
+                style="@style/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:text="@string/textSize" />
+
+            <SeekBar
+                android:id="@+id/sbFontSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:max="@integer/maxFont"
+                android:min="@integer/minFont"
+                android:progress="20" />
+
             <EditText
                 android:id="@+id/edtText"
                 android:layout_width="match_parent"
@@ -227,6 +221,7 @@
                 android:visibility="gone" />
 
             <TextView
+                style="@style/title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10"
@@ -254,6 +249,7 @@
             </RadioGroup>
 
             <TextView
+                style="@style/title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_10"
@@ -282,6 +278,7 @@
             </RadioGroup>
 
             <TextView
+                style="@style/title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_10"
@@ -307,38 +304,6 @@
                     android:layout_marginBottom="@dimen/margin_5"
                     android:text="@string/magneta" />
             </RadioGroup>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <com.linkdev.circleprogress.CircularProgress
-                    android:id="@+id/animatedProgressCircular"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_height="wrap_content"
-                    app:innerCircleBackground="@color/circleBg"
-                    app:max="@integer/max_100"
-                    app:outerStrokeColor="@color/gray"
-                    app:outerStrokeThickness="1dp"
-                    app:progressDirection="Clockwise"
-                    app:progressRoundedEnd="true"
-                    app:progressStrokeColor="@color/red"
-                    app:progressStrokeThickness="@dimen/stroke_5"
-                    app:showDecimalZero="false"
-                    app:startAngle="Top"
-                    app:textColor="@color/black"
-                    app:textDisplay="ProgressValue"
-                    app:textSize="@dimen/fontSmall" />
-
-                <Button
-                    android:textAllCaps="false"
-                    android:id="@+id/btnAnimate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:text="@string/startAnimation" />
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

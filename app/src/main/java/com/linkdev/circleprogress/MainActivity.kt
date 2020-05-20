@@ -7,6 +7,9 @@ import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
@@ -21,26 +24,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initStartAngleSpinner()
+        initDirectionSpinner()
+//        progressCircular.setTextFont(R.font.alex_brush_regular)
 
-
-        progressCircular.setTextFont(R.font.alex_brush_regular)
-        btnAnimate.setOnClickListener { onAnimateClick() }
-
-        rdgrpStartAngle.setOnCheckedChangeListener { group, checkedId ->
-            onRdgrpStartAngleChecked(
-                checkedId
-            )
-        }
-        rdgrpDirection.setOnCheckedChangeListener { group, checkedId ->
-            onRdgrpDirectionChecked(
-                checkedId
-            )
-        }
         chkRounded.setOnCheckedChangeListener { buttonView, isChecked ->
             onChkRoundedChange(
                 isChecked
             )
         }
+        sbFontSize.setOnSeekBarChangeListener(onTextSizeSeekBarChangeListener)
         sbStokeThickness.setOnSeekBarChangeListener(onStrokeSeekBarChangeListener)
         sbProgressThickness.setOnSeekBarChangeListener(onProgressSeekBarChangeListener)
         chkShowDecimal.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -68,32 +61,129 @@ class MainActivity : AppCompatActivity() {
                 checkedId
             )
         }
+        edtMax.addTextChangedListener(edtMaxTextWatcher)
+        edtProgress.addTextChangedListener(edtProgressTextWatcher)
         edtText.addTextChangedListener(edtTextWatcher)
         /*
         free font
         https://www.1001freefonts.com/designer-typesetit-fontlisting.php
          */
-        progressCircular.setTextFont(R.font.alex_brush_regular)
+//        progressCircular.setTextFont(R.font.alex_brush_regular)
 
     }
 
-    private fun onAnimateClick() {
-        max = animatedProgressCircular.getMax()
-        handler.postDelayed(runnable,0)
+    private fun initDirectionSpinner() {
+
+        val spDirectionItems = arrayOf(getString(R.string.withClockWise), getString(R.string.antiClockWise))
+        val spDirectionAdapter: ArrayAdapter<String> =
+            ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spDirectionItems)
+        spDirectionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spDirection.adapter = spDirectionAdapter
+        spDirection.onItemSelectedListener = spDirectionItemSelectedListener
     }
 
-    private val runnable: Runnable = object : Runnable {
-        override fun run() {
-            if (progress in 0.0..max.toDouble()) {
-                progress++
-                animatedProgressCircular.setProgress(progress)
-            }else
-                handler.removeCallbacks(this)
+    private fun initStartAngleSpinner() {
+        val spStartAngleItems = arrayOf(getString(R.string.top), getString(R.string.right), getString(R.string.left),getString(R.string.bottom))
+        val spStartAngleAdapter: ArrayAdapter<String> =
+            ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spStartAngleItems)
+        spStartAngleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spStartAngle.adapter = spStartAngleAdapter
+        spStartAngle.onItemSelectedListener = spStartAngleItemSelectedListener
+    }
 
-            handler.postDelayed(this, 200L)
+    private var spDirectionItemSelectedListener= object : OnItemSelectedListener {
+        override fun onItemSelected(
+            parentView: AdapterView<*>?,
+            selectedItemView: View,
+            position: Int,
+            id: Long
+        ) {
+            onSpDirectionItemSelected(position)
+        }
+
+        override fun onNothingSelected(parentView: AdapterView<*>?) { // your code here
         }
     }
 
+    private var spStartAngleItemSelectedListener = object : OnItemSelectedListener {
+        override fun onItemSelected(
+            parentView: AdapterView<*>?,
+            selectedItemView: View,
+            position: Int,
+            id: Long
+        ) {
+            onSpStartAngleItemSelected(position)
+        }
+
+        override fun onNothingSelected(parentView: AdapterView<*>?) { // your code here
+        }
+    }
+
+    private fun onSpStartAngleItemSelected(position: Int) {
+        when (position) {
+            0 -> {
+                progressCircular.setStartAngle(StartAngle.TOP)
+            }
+            1 -> {
+                progressCircular.setStartAngle(StartAngle.RIGHT)
+            }
+            2 -> {
+                progressCircular.setStartAngle(StartAngle.LEFT)
+            }
+            else -> {
+                progressCircular.setStartAngle(StartAngle.BOTTOM)
+            }
+        }
+    }
+
+    //    private fun onAnimateClick() {
+//        max = animatedProgressCircular.getMax()
+//        handler.postDelayed(runnable,0)
+//    }
+//
+//    private val runnable: Runnable = object : Runnable {
+//        override fun run() {
+//            if (progress in 0.0..max.toDouble()) {
+//                progress++
+//                animatedProgressCircular.setProgress(progress)
+//            }else
+//                handler.removeCallbacks(this)
+//
+//            handler.postDelayed(this, 200L)
+//        }
+//    }
+    private var edtMaxTextWatcher: TextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            if (!s.isNullOrEmpty())
+                progressCircular.setMax(s.toString().toInt())
+            else
+                progressCircular.setMax(0)
+        }
+
+        override fun afterTextChanged(s: Editable) {
+
+        }
+    }
+    private var edtProgressTextWatcher: TextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            if (!s.isNullOrEmpty())
+                progressCircular.setProgress(s.toString().toFloat())
+            else
+                progressCircular.setProgress(0f)
+        }
+
+        override fun afterTextChanged(s: Editable) {
+
+        }
+    }
     private var edtTextWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
 
@@ -196,38 +286,35 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+    private var onTextSizeSeekBarChangeListener = object : SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            progressCircular.setTextSize(progress.toFloat())
+        }
+
+        override fun onStartTrackingTouch(seekBar: SeekBar?) {
+        }
+
+        override fun onStopTrackingTouch(seekBar: SeekBar?) {
+        }
+
+    }
 
     private fun onChkRoundedChange(checked: Boolean) {
         progressCircular.setProgressRoundedEnd(checked)
     }
 
-    private fun onRdgrpDirectionChecked(checkedId: Int) {
-        when (checkedId) {
-            R.id.rdbtnWithClockWise -> {
+    private fun onSpDirectionItemSelected(position: Int) {
+        when (position) {
+            0-> {
                 progressCircular.setProgressDirection(ProgressDirection.CLOCKWISE)
             }
-            R.id.rdbtnAntiClokWise -> {
+            else-> {
                 progressCircular.setProgressDirection(ProgressDirection.ANTICLOCKWISE)
             }
         }
     }
 
-    private fun onRdgrpStartAngleChecked(checkedId: Int) {
-        when (checkedId) {
-            R.id.rdbtnTop -> {
-                progressCircular.setStartAngle(StartAngle.TOP)
-            }
-            R.id.rdbtnRight -> {
-                progressCircular.setStartAngle(StartAngle.RIGHT)
-            }
-            R.id.rdbtnLeft -> {
-                progressCircular.setStartAngle(StartAngle.LEFT)
-            }
-            else -> {
-                progressCircular.setStartAngle(StartAngle.BOTTOM)
-            }
-        }
-    }
+
 
     private fun onSubmitClick() {
 //        if (edtProgress.text.isNotEmpty())
