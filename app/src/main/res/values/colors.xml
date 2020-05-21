@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#264653</color>
+    <color name="colorPrimaryDark">#23404b</color>
+    <color name="colorAccent">#babb74</color>
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
     <color name="gray">#797474</color>
@@ -11,4 +11,13 @@
     <color name="red">#ff0000</color>
     <color name="circleBg">#07000000</color>
     <color name="white">#FFFFFF</color>
+
+    <color name="terraCotta">#E76F51</color>
+    <color name="sandyBrown">#F4A261</color>
+    <color name="earthYellow">#EFB366</color>
+    <color name="maize">#E9C46A</color>
+    <color name="darkSeaGreen">#8AB17D</color>
+    <color name="persianGreen">#2A9D8F</color>
+    <color name="skobeloff">#287271</color>
+    <color name="charcoal">#264653</color>
 </resources>

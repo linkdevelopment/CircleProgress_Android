@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CircleProgress</string>
+    <string name="app_name">Circle Progress</string>
     <string name="submit">Submit</string>
     <string name="progress">Progress</string>
     <string name="top">Top</string>
@@ -22,7 +22,7 @@
     <string name="red">Red</string>
     <string name="green">Green</string>
     <string name="blue">Blue</string>
-    <string name="strokeColor">Stroke color</string>
+    <string name="strokeColor">Outer stroke color</string>
     <string name="yellow">Yellow</string>
     <string name="cyan">Cyan</string>
     <string name="magneta">Magneta</string>
@@ -31,5 +31,17 @@
     <string name="startAnimation">Start Animation</string>
     <string name="max">Max</string>
     <string name="textSize">Text Size</string>
+    <string name="darkOrange">Dark Orange</string>
+    <string name="enterText">Enter Text</string>
+    <string name="terraCotta">Terra cotta</string>
+    <string name="darkSeaGreen">Dark Sea Green</string>
+    <string name="sandyBrown">Sandy brown</string>
+    <string name="persianGreen">Persian Green</string>
+    <string name="earthYellow">Earth Yellow</string>
+    <string name="skobeloff">Skobeloff</string>
+    <string name="backgroundCircle">Background circle</string>
+    <string name="textColor">Text Color</string>
+    <string name="maize">Maize</string>
+    <string name="charcoal">Charcoal</string>
 
 </resources>

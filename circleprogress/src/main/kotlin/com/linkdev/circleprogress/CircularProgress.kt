@@ -460,6 +460,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
             }
         } else
             mMax = 0
+        setProgressValue(mProgress)
     }
 
     fun setMax(max: Int?) {

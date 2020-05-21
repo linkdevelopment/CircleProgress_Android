@@ -12,7 +12,7 @@
     <integer name="minThick">1</integer>
     <integer name="minFont">10</integer>
     <integer name="maxFont">24</integer>
-    <dimen name="fontLarge">20sp</dimen>
+    <dimen name="fontLarge">18sp</dimen>
     <dimen name="circle_width">150dp</dimen>
     <dimen name="circle_height">150dp</dimen>
     <dimen name="fontMedium">16sp</dimen>
