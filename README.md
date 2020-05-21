@@ -221,16 +221,17 @@ or
 ```
 or
 ```xml
- app:textDisplay="ProvidedText"
  app:text="hello world"
 ```
 ```kotlin
-  progressCircular.setTextDisplay(TextDisplay.PROVIDED_TEXT)
   progressCircular.setText("hello world")
 ```
 #### Attention
-If you provide text to the circle progress but the textDisplay is set by
-any value except provided text the text will be ignored
+If you provide text to the circle progress but after that the
+textDisplay is set by any value except provided text the text will be
+ignored. The text display type is set automatically by ProvidedText when
+user set text , if user change the text display type to ProvidedText and
+set no value to the text nothing will be shown
 
 ## Developed By
 Ahmed Ezz
