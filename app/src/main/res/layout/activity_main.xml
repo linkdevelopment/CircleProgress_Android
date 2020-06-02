@@ -55,7 +55,6 @@ limitations under the License.
             android:orientation="vertical">
 
             <EditText
-                android:focusable="false"
                 android:id="@+id/edtMax"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +68,6 @@ limitations under the License.
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:focusable="false"
                     android:id="@+id/edtProgress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
