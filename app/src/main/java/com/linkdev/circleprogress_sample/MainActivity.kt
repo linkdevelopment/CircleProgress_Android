@@ -1,4 +1,19 @@
-package com.linkdev.circleprogress
+/**
+Copyright 2020 Link Development
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+ **/
+package com.linkdev.circleprogress_sample
 
 
 import android.graphics.Color
@@ -16,45 +31,73 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import com.linkdev.circleprogress.ProgressDirection
+import com.linkdev.circleprogress.StartAngle
+import com.linkdev.circleprogress.TextDisplay
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
 
 
 class MainActivity : AppCompatActivity() {
-    companion object {
-        const val ZERO_INDEX = 0
-        const val ONE_INDEX = 1
-        const val TWO_INDEX = 2
-    }
 
     private var max: Int = 0
-    private var progress: Float = 0f
-    val handler: Handler = Handler()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initSpinners()
+        setFont()
+        setListeners()
+    }
+
+    private fun initSpinners() {
         initStartAngleSpinner()
         initDirectionSpinner()
         initTextDisplaySpinner()
-        /*
-       free font
-       https://www.1001freefonts.com/designer-typesetit-fontlisting.php
-        */
-        progressCircular.setTextFont(R.font.alex_brush_regular)
+    }
 
+    private fun setFont() {
+        progressCircular.setTextFont(R.font.times_new_roman_italique_400)
+    }
+
+    private fun setListeners() {
+        setMaxAndProgressTextWatchers()
+        setStrokeAndProgressWidthListeners()
+        setColorRadioGroupsListeners()
+        setColorEditTextsListeners()
+        setTextWatcherForCircleText()
+        setAnimateClickListener()
+        setFontSizeChangeListener()
+        setRoundCornersAndShowDecimalsListener()
+    }
+
+    private fun setRoundCornersAndShowDecimalsListener() {
         chkRounded.setOnCheckedChangeListener { buttonView, isChecked ->
             onChkRoundedChange(
                 isChecked
             )
         }
+    }
+
+    private fun setFontSizeChangeListener() {
         sbFontSize.setOnSeekBarChangeListener(onTextSizeSeekBarChangeListener)
-        sbStokeThickness.setOnSeekBarChangeListener(onStrokeSeekBarChangeListener)
-        sbProgressThickness.setOnSeekBarChangeListener(onProgressSeekBarChangeListener)
-        chkShowDecimal.setOnCheckedChangeListener { buttonView, isChecked ->
-            onChkShowDecimal(
-                isChecked
-            )
-        }
+    }
+
+    private fun setAnimateClickListener() {
+        btnAnimate.setOnClickListener { onAnimateClick() }
+    }
+
+    private fun setTextWatcherForCircleText() {
+        edtText.addTextChangedListener(edtTextWatcher)
+    }
+
+    private fun setColorEditTextsListeners() {
+        edtProgressColor.setOnEditorActionListener(edtProgressColorActionListener)
+        edtStrokeColor.setOnEditorActionListener(edtStrokeColorActionListener)
+        edtBackgroundCircle.setOnEditorActionListener(edtBackgroundCircleColorActionListener)
+        edtTextColor.setOnEditorActionListener(edtTextColorActionListener)
+    }
+
+    private fun setColorRadioGroupsListeners() {
         rdgrpProgressColor.setOnCheckedChangeListener { group, checkedId ->
             onRdgrpProgressColor(
                 checkedId
@@ -75,15 +118,18 @@ class MainActivity : AppCompatActivity() {
                 checkedId
             )
         }
-        edtMax.setOnEditorActionListener(edtMaxActionListener)
-        edtProgress.setOnEditorActionListener(edtProgressActionListener)
-        edtText.addTextChangedListener(edtTextWatcher)
-        edtProgressColor.setOnEditorActionListener(edtProgressColorActionListener)
-        edtStrokeColor.setOnEditorActionListener(edtStrokeColorActionListener)
-        edtBackgroundCircle.setOnEditorActionListener(edtBackgroundCircleColorActionListener)
-        edtTextColor.setOnEditorActionListener(edtTextColorActionListener)
-        btnAnimate.setOnClickListener { onAnimateClick() }
     }
+
+    private fun setStrokeAndProgressWidthListeners() {
+        sbStokeThickness.setOnSeekBarChangeListener(onStrokeSeekBarChangeListener)
+        sbProgressThickness.setOnSeekBarChangeListener(onProgressSeekBarChangeListener)
+    }
+
+    private fun setMaxAndProgressTextWatchers() {
+        edtMax.addTextChangedListener(edtMaxTextWatcher)
+        edtProgress.addTextChangedListener(edtProgressTextWatcher)
+    }
+
 
     private fun onRdgrpTextColor(checkedId: Int) {
         when (checkedId) {
@@ -174,7 +220,7 @@ class MainActivity : AppCompatActivity() {
             ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spTextDisplayItems)
         spTextDisplayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spTextDisplay.adapter = spTextDisplayAdapter
-        spTextDisplay.setSelection(ONE_INDEX)
+        spTextDisplay.setSelection(1)
         spTextDisplay.onItemSelectedListener = spTextDisplayItemSelectedListener
     }
 
@@ -191,9 +237,9 @@ class MainActivity : AppCompatActivity() {
     private fun initStartAngleSpinner() {
         val spStartAngleItems = arrayOf(
             getString(R.string.top),
-            getString(R.string.right),
+            getString(R.string.bottom),
             getString(R.string.left),
-            getString(R.string.bottom)
+            getString(R.string.right)
         )
         val spStartAngleAdapter: ArrayAdapter<String> =
             ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spStartAngleItems)
@@ -247,17 +293,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun onSpStartAngleItemSelected(position: Int) {
         when (position) {
-            ZERO_INDEX -> {
+            0 -> {
                 progressCircular.setStartAngle(StartAngle.TOP)
             }
-            ONE_INDEX -> {
-                progressCircular.setStartAngle(StartAngle.RIGHT)
+            1 -> {
+                progressCircular.setStartAngle(StartAngle.BOTTOM)
+
             }
-            TWO_INDEX -> {
+            2 -> {
                 progressCircular.setStartAngle(StartAngle.LEFT)
             }
             else -> {
-                progressCircular.setStartAngle(StartAngle.BOTTOM)
+                progressCircular.setStartAngle(StartAngle.RIGHT)
             }
         }
     }
@@ -268,46 +315,45 @@ class MainActivity : AppCompatActivity() {
         } else
             max = progressCircular.getMax()
 
-        handler.postDelayed(runnable, 0)
+        progressCircular.setProgressWithAnimation(max,50L)
     }
 
-    private val runnable: Runnable = object : Runnable {
-        override fun run() {
 
-            if (progress in 0.0..max.toDouble()) {
-                progressCircular.setProgress(progress)
-                progress++
-                handler.postDelayed(this, 50L)
-            } else{
-                handler.removeCallbacks(this)
-                progress = 0f
-            }
+    private var edtMaxTextWatcher: TextWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+
         }
-    }
 
-    private var edtMaxActionListener= object : TextView.OnEditorActionListener {
-        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (!edtMax.text.toString().isNullOrEmpty())
-                    progressCircular.setMax(edtMax.text.toString().toInt())
-                else
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            if (!s.isNullOrEmpty())
+                if (s.toString().equals("."))
                     progressCircular.setMax(0)
-                return true
-            }
-            return false
+                else
+                    progressCircular.setMax(s.toString().toInt())
+            else
+                progressCircular.setMax(0)
         }
     }
 
-    private var edtProgressActionListener= object : TextView.OnEditorActionListener {
-        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (!edtProgress.text.toString().isNullOrEmpty())
-                    progressCircular.setProgress(edtProgress.text.toString().toFloat())
-                else
+    private var edtProgressTextWatcher: TextWatcher = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            if (!s.isNullOrEmpty())
+                if (s.toString().equals("."))
                     progressCircular.setProgress(0f)
-                return true
-            }
-            return false
+                else
+                    progressCircular.setProgress(s.toString().toFloat())
+            else
+                progressCircular.setProgress(0f)
         }
     }
 
@@ -327,15 +373,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun onSpTextDisplayItemSelected(position: Int) {
         when (position) {
-            ZERO_INDEX -> {
+            0 -> {
                 edtText.visibility = View.GONE
                 progressCircular.setTextDisplay(TextDisplay.NO_TEXT)
             }
-            ONE_INDEX -> {
+            1 -> {
                 edtText.visibility = View.GONE
                 progressCircular.setTextDisplay(TextDisplay.PROGRESS_PERCENTAGE)
             }
-            TWO_INDEX -> {
+            2 -> {
                 edtText.visibility = View.GONE
                 progressCircular.setTextDisplay(TextDisplay.PROGRESS_VALUE)
             }
@@ -415,13 +461,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onChkShowDecimal(checked: Boolean) {
-        progressCircular.setShowDecimalZero(checked)
-    }
-
     private var onProgressSeekBarChangeListener = object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            progressCircular.setProgressStrokeThickness(progress)
+            progressCircular.setProgressStrokeWidth(progress)
         }
 
         override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -433,7 +475,7 @@ class MainActivity : AppCompatActivity() {
     }
     private var onStrokeSeekBarChangeListener = object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            progressCircular.setOuterStrokeThickness(progress)
+            progressCircular.setOuterStrokeWidth(progress)
         }
 
         override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -457,12 +499,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onChkRoundedChange(checked: Boolean) {
-        progressCircular.setProgressRoundedEnd(checked)
+        progressCircular.setProgressRoundedCorners(checked)
     }
 
     private fun onSpDirectionItemSelected(position: Int) {
         when (position) {
-            ZERO_INDEX -> {
+            0 -> {
                 progressCircular.setProgressDirection(ProgressDirection.CLOCKWISE)
             }
             else -> {

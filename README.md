@@ -1,26 +1,19 @@
 # CircleProgress
-Circular progress is android library to create circle progress which useful in
-
-1.	Show percentages
-2.	Count downs,etc
+CircleProgress is a highly customizable lightweight library to create
+circular progress bars for Android
 
 ## Setup
 
-Add the dependency in your app build.gradle:
+
 ```
-implementation  'io.card:android-sdk:5.5.1' todo will be changed
-```
-Add Jitpack in your root build.gradle at the end of repositories:
-```
- allprojects {
-		repositories {
-			...
-			maven { url "https://jitpack.io" }
-		}
-	}
+From android studio choose file menu then choose new then import module
+and choose module path
 ```
 ## Usage
-Basic usage
+How to use
+
+Add view to your layout
+
 ```xml
 <com.linkdev.circleprogress.CircularProgress
         android:id="@+id/progressCircular"
@@ -52,10 +45,13 @@ Usage for all attributes
         app:textDisplay="ProgressPercentage"
         app:textSize="12sp" />
 ```
+## Note to be update
 ![](images/circle_progress.gif)
 ![](images/animated_circle_progress.gif)
 
 #### Set Max
+# This attribute used to set the max value for the progress
+# its default value is 100
 ```xml
  app:max="100"
 ```
@@ -66,7 +62,9 @@ Usage for all attributes
   progressCircular.setMax(100)
 ```
 #### Set inner circle background
-```xml
+# This attribute used to set the background of the inner circle
+# its default value is transparent
+ ```xml
  app:innerCircleBackground="#ff0000"
 ```
 ```kotlin
@@ -79,6 +77,8 @@ Usage for all attributes
                     ))
 ```
 #### Set Outer Stroke Color
+ This attribute used to set the color of un finished part of the progress
+ its default value is gray
 ```xml
  app:outerStrokeColor="#ff0000"
 ```
@@ -86,14 +86,18 @@ Usage for all attributes
   progressCircular.setOuterStrokeColor(Color.BLUE)
 ```
 
-#### Set Outer Stroke Thickness
+#### Set Outer Stroke width
+ This attribute used to set the width of un finished part of the progress
+ its default value is 4dp
 ```xml
- app:outerStrokeThickness="5dp"
+ app:outerStrokeWidth="5dp"
 ```
 ```kotlin
-  progressCircular.setOuterStrokeThickness(5)
+  progressCircular.setOuterStrokeWidth(5)
 ```
 #### Set Progress
+ This attribute used to set the progress value
+ its default value is 0
 ```xml
  app:progress="57"
 ```
@@ -101,7 +105,13 @@ Progress value is set as float
 ```kotlin
   progressCircular.setProgress(57f)
 ```
+also you can set progress with animation by the following
+```kotlin
+  progressCircular.setProgressWithAnimation(progress_value,millis_delay)
+```
 #### Set Progress Direction
+ This attribute used to set the drawing direction of the circle
+ either clockwise or anti clockwise the default is clockwise
 ```xml
  app:progressDirection="Clockwise"
  ```
@@ -115,14 +125,18 @@ app:progressDirection="Anticlockwise"
  ```kotlin
   progressCircular.setProgressDirection(ProgressDirection.ANTICLOCKWISE)
 ```
-#### Set Progress Rounded End
+#### Set Rounded Corners
+ This attribute used to set if the progress should be rounded corners or not
+ the default is false
 ```xml
- app:progressRoundedEnd="true"
+ app:roundedCorners="true"
  ```
  ```kotlin
-  progressCircular.setProgressRoundedEnd(false)
+  progressCircular.setProgressRoundedCorners(false)
 ```
 #### Set Progress Stroke Color
+ This attribute used to set the color of the finished part of the progress
+ its default value is black
 ```xml
  app:progressStrokeColor="#ff0000"
 ```
@@ -130,26 +144,18 @@ app:progressDirection="Anticlockwise"
   progressCircular.setProgressStrokeColor(Color.BLUE)
 ```
 
- #### Set Progress Stroke Thickness
+#### Set Progress Stroke Width
+ This attribute used to set the width of finished part of the progress
+ its default value is 4dp
 ```xml
  app:progressStrokeThickness="5dp"
 ```
 ```kotlin
   progressCircular.setProgressStrokeThickness(5)
 ```
-#### Show Decimal Zero
-if this is true it will display the int values as following 50.0 but if
-it false it will be displayed as 50 and in both cases the float values
-will be displayed normally
-```xml
- app:showDecimalZero="false"
-```
-```kotlin
-  progressCircular.setShowDecimalZero(true)
-```
 #### Start Angle
-It is the start point of drawing the progress it can be drawn from top,
-right, left and bottom
+This attribute used to set start point of drawing the progress it can be drawn from top,
+right, left and bottom the default value is top
 ```xml
  app:startAngle="Top"
 ```
@@ -178,6 +184,7 @@ or
   progressCircular.setStartAngle(StartAngle.RIGHT)
 ```
 #### Text Color
+This attribute used to set text color the default is black
 ```xml
  app:textColor="#000000"
 ```
@@ -185,6 +192,7 @@ or
   progressCircular.setTextColor(Color.Red)
 ```
 #### Text Size
+This attribute used to set text size the default is 10sp
 ```xml
  app:textSize="12sp"
 ```
@@ -192,13 +200,14 @@ or
   progressCircular.setTextSize(12f)
 ```
 #### Text Font
+This attribute used to set text font
 ```kotlin
   progressCircular.setTextFont(R.font.custom_font)
 ```
 #### Text
 By default the displayed text is the percentage value of the progress
-(progress / max ) *100 ,But we can display the progress value it self or
-display no text or display any other text by the following
+(progress / max ) * 100 ,But we can display the progress value itself or
+display no text or display any custom text by the following
 ```xml
  app:textDisplay="ProgressPercentage"
 ```
@@ -227,11 +236,22 @@ or
   progressCircular.setText("hello world")
 ```
 #### Attention
-If you provide text to the circle progress but after that the
-textDisplay is set by any value except provided text the text will be
-ignored. The text display type is set automatically by ProvidedText when
-user set text , if user change the text display type to ProvidedText and
-set no value to the text nothing will be shown
+If you provided text to the circle progress but after that the
+textDisplay is set by any value other than PROVIDED_TEXT/ProvidedText the text will be
+ignored. The text display type is set automatically by ProvidedText when text is set.
+if the text display type is set to ProvidedText and no value was provided in the text nothing will be shown.
 
-## Developed By
-Ahmed Ezz
+## License
+Copyright 2020 Link Development
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
