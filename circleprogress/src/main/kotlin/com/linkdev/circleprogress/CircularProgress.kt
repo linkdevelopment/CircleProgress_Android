@@ -18,7 +18,6 @@ package com.linkdev.circleprogress
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.*
-import android.os.Handler
 import android.text.TextPaint
 import android.text.TextUtils
 import android.util.AttributeSet
@@ -27,6 +26,7 @@ import android.view.View
 import androidx.annotation.FontRes
 import androidx.core.content.res.ResourcesCompat
 import com.linkdev.circleprogress.Utilities.sp2px
+import java.util.*
 import kotlin.math.max
 import kotlin.math.min
 
@@ -40,12 +40,15 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         const val DEFAULT_MAX = 100
         const val PERCENTAGE_VALUE = "%s%%"
         const val NON_PERCENTAGE_VALUE = "%s"
-        const val ONE_HUNDRED = 100
-        const val DEFAULT_DESIRED_SIZE = 275
+        const val DEFAULT_DIMENS = 275
         const val FULL_CIRCLE_DEGREES = 360
     }
 
     private var animating: Boolean = false
+    private var timer = Timer()
+    private var mAnimationProgress: Float = 0f
+    private var mAnimationMaxProgress: Float = 0f
+    private var mAnimationDelayMillis: Long = 0
     private var mProgressStrokeColor: Int = Color.BLACK
 
     private var mOuterStrokeColor: Int = Color.GRAY
@@ -86,7 +89,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     private val bgStrokeRect by lazy { RectF() }
 
     private val textPaint = TextPaint()
-    private val backGroundPaint = Paint()
+    private val outerStrokePaint = Paint()
     private val progressPaint = Paint()
     private val circleBGPaint = Paint()
 
@@ -116,7 +119,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     private fun initPainters() {
         initTextPaint()
 
-        initBackGroundPaint()
+        initOuterStrokePaint()
 
         initCircleBackGroundPaint()
 
@@ -220,7 +223,6 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
      */
     private fun initCircleBackGroundPaint() {
         circleBGPaint.color = mInnerCircleBackground
-        circleBGPaint.isAntiAlias = true
         circleBGPaint.style = Paint.Style.FILL
     }
 
@@ -239,11 +241,11 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     /**
      * set values of the background paint
      */
-    private fun initBackGroundPaint() {
-        backGroundPaint.color = mOuterStrokeColor
-        backGroundPaint.isAntiAlias = true
-        backGroundPaint.style = Paint.Style.STROKE
-        backGroundPaint.strokeWidth = mOuterStrokeWidth.toFloat()
+    private fun initOuterStrokePaint() {
+        outerStrokePaint.color = mOuterStrokeColor
+        outerStrokePaint.isAntiAlias = true
+        outerStrokePaint.style = Paint.Style.STROKE
+        outerStrokePaint.strokeWidth = mOuterStrokeWidth.toFloat()
     }
 
     /**
@@ -275,7 +277,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     private fun drawRects(canvas: Canvas?) {
-        drawStroke(canvas)
+        drawOuterStroke(canvas)
         drawCircleBackGround(canvas)
         drawProgressArc(canvas)
         drawText(canvas)
@@ -311,9 +313,9 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     /**
      * draw outer circle
      */
-    private fun drawStroke(canvas: Canvas?) {
+    private fun drawOuterStroke(canvas: Canvas?) {
         canvas?.drawOval(
-            bgStrokeRect, backGroundPaint
+            bgStrokeRect, outerStrokePaint
         )
     }
 
@@ -422,12 +424,12 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
                 if (mProgress.minus(mProgress.toInt()) == 0f) {
                     String.format(
                         PERCENTAGE_VALUE,
-                        ((mProgress.div(mMax)) * ONE_HUNDRED).toInt().toString()
+                        ((mProgress.div(mMax)) * 100).toInt().toString()
                     )
                 } else {
                     String.format(
                         PERCENTAGE_VALUE,
-                        ((mProgress.div(mMax)) * ONE_HUNDRED).toString()
+                        ((mProgress.div(mMax)) * 100).toString()
                     )
                 }
             }
@@ -440,9 +442,9 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
 
         val desiredWidth =
-            DEFAULT_DESIRED_SIZE
+            DEFAULT_DIMENS
         val desiredHeight =
-            DEFAULT_DESIRED_SIZE
+            DEFAULT_DIMENS
 
         val widthMode = MeasureSpec.getMode(widthMeasureSpec)
         val widthSize = MeasureSpec.getSize(widthMeasureSpec)
@@ -497,26 +499,39 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
      * fill the circle progress with the provided value but in incremental way by increase progress value by 1 each
      * provided delayMillis until reach the final value
      */
-    fun setProgressWithAnimation(maxProgress: Int, delayMillis: Long) {
-        val handler = Handler()
-        var progress: Float = 0f
-        val runnable: Runnable = object : Runnable {
-            override fun run() {
-                if (progress in 0.0..maxProgress.toDouble()) {
-                    setProgress(progress)
-                    progress++
-                    animating = true
-                    handler.postDelayed(this, delayMillis)
-                } else {
-                    animating = false
-                    handler.removeCallbacks(this)
-                    progress = 0f
-                }
-            }
-        }
+    fun setProgressWithAnimation(maxProgress: Float, delayMillis: Long) {
+        mAnimationMaxProgress = maxProgress
+        mAnimationDelayMillis = delayMillis
         if (!animating) {
-            handler.postDelayed(runnable, 0)
+            timer = Timer()
+            timer.schedule(object : TimerTask() {
+                override fun run() {
+                    if (mAnimationProgress in 0.0..mAnimationMaxProgress.toDouble()) {
+                        setProgress(mAnimationProgress)
+                        mAnimationProgress++
+                        animating = true
+                    } else {
+                        animating = false
+                        mAnimationProgress = 0f
+                        timer.cancel()
+                    }
+                }
+            }, 0, delayMillis)
         }
+    }
+
+    fun pauseAnimation() {
+        if (animating) {
+            timer.cancel()
+            animating = false
+        }
+    }
+
+    fun stopAnimation() {
+        timer.cancel()
+        animating = false
+        mAnimationProgress = 0f
+        setProgress(mAnimationProgress)
     }
 
     fun setOuterStrokeColor(outerStrokeColor: Int) {
@@ -550,6 +565,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         mTextSize = sp2px(context.resources, textSize)
         postInvalidate()
     }
+
     /***
      * the method make sure that the provided max is not null and greater than zero and then check on the previous progress to make sure that
      * new max not less than it

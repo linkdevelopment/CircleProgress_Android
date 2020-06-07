@@ -33,7 +33,7 @@ limitations under the License.
     <string name="noText">No Text</string>
     <string name="percentage">Percentage</string>
     <string name="providedText">provided text</string>
-    <string name="progressColor">Progress Color</string>
+    <string name="progressColor">Progress Color(Hex color)</string>
     <string name="red">Red</string>
     <string name="green">Green</string>
     <string name="blue">Blue</string>
@@ -41,7 +41,7 @@ limitations under the License.
     <string name="yellow">Yellow</string>
     <string name="cyan">Cyan</string>
     <string name="magneta">Magneta</string>
-    <string name="circleBackGround">Background circle</string>
+    <string name="circleBackGround">Background circle(Hex color)</string>
     <string name="helloWorld">Hello World</string>
     <string name="startAnimation">Start Animation</string>
     <string name="max">Max</string>
@@ -55,8 +55,11 @@ limitations under the License.
     <string name="earthYellow">Earth Yellow</string>
     <string name="skobeloff">Skobeloff</string>
     <string name="backgroundCircle">Background circle</string>
-    <string name="textColor">Text Color</string>
+    <string name="textColor">Text Color(Hex color)</string>
     <string name="maize">Maize</string>
     <string name="charcoal">Charcoal</string>
+    <string name="delayHint">default 50 milliseconds</string>
+    <string name="pauseAnimation">Pause</string>
+    <string name="stopAnimation">Stop</string>
 
 </resources>

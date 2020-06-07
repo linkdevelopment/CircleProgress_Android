@@ -18,8 +18,8 @@ package com.linkdev.circleprogress_sample
 
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
 import android.text.Editable
+import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
@@ -40,13 +40,19 @@ import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
-    private var max: Int = 0
+    private var max: Float = 0f
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        initMaxAndProgressEditTexts()
         initSpinners()
         setFont()
         setListeners()
+    }
+
+    private fun initMaxAndProgressEditTexts() {
+        edtMax.setText(progressCircular.getMax().toString())
+        edtProgress.setText(progressCircular.getProgress().toString())
     }
 
     private fun initSpinners() {
@@ -65,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         setColorRadioGroupsListeners()
         setColorEditTextsListeners()
         setTextWatcherForCircleText()
-        setAnimateClickListener()
+        setAnimationButtonsClickListener()
         setFontSizeChangeListener()
         setRoundCornersAndShowDecimalsListener()
     }
@@ -82,8 +88,10 @@ class MainActivity : AppCompatActivity() {
         sbFontSize.setOnSeekBarChangeListener(onTextSizeSeekBarChangeListener)
     }
 
-    private fun setAnimateClickListener() {
+    private fun setAnimationButtonsClickListener() {
         btnAnimate.setOnClickListener { onAnimateClick() }
+        btnPauseAnimation.setOnClickListener { onPauseClick() }
+        btnStopAnimate.setOnClickListener { onStopClick() }
     }
 
     private fun setTextWatcherForCircleText() {
@@ -152,14 +160,14 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
-
     }
+
 
     private var edtTextColorActionListener = object : TextView.OnEditorActionListener {
         override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 try {
-                    progressCircular.setTextColor(Color.parseColor(edtTextColor.text.toString()))
+                    progressCircular.setTextColor(Color.parseColor("#${edtTextColor.text.toString()}"))
                 } catch (exc: Exception) {
                     exc.printStackTrace()
                 }
@@ -172,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 try {
-                    progressCircular.setInnerCircleBackground(Color.parseColor(edtBackgroundCircle.text.toString()))
+                    progressCircular.setInnerCircleBackground(Color.parseColor("#${edtBackgroundCircle.text.toString()}"))
                 } catch (exc: Exception) {
                     exc.printStackTrace()
                 }
@@ -186,7 +194,7 @@ class MainActivity : AppCompatActivity() {
         override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 try {
-                    progressCircular.setOuterStrokeColor(Color.parseColor(edtStrokeColor.text.toString()))
+                    progressCircular.setOuterStrokeColor(Color.parseColor("#${edtStrokeColor.text.toString()}"))
                 } catch (exc: Exception) {
                     exc.printStackTrace()
                 }
@@ -200,7 +208,7 @@ class MainActivity : AppCompatActivity() {
         override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 try {
-                    progressCircular.setProgressStrokeColor(Color.parseColor(edtProgressColor.text.toString()))
+                    progressCircular.setProgressStrokeColor(Color.parseColor("#${edtProgressColor.text.toString()}"))
                 } catch (exc: Exception) {
                     exc.printStackTrace()
                 }
@@ -309,13 +317,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun onPauseClick() {
+        progressCircular.pauseAnimation()
+    }
+
+    private fun onStopClick() {
+        progressCircular.stopAnimation()
+    }
+
     private fun onAnimateClick() {
         if (!edtProgress.text.toString().isNullOrEmpty()) {
-            max = edtProgress.text.toString().toInt()
+            max = edtProgress.text.toString().toFloat()
         } else
-            max = progressCircular.getMax()
+            max = progressCircular.getMax().toFloat()
 
-        progressCircular.setProgressWithAnimation(max,50L)
+        if (TextUtils.isEmpty(edtDelay.text.toString()))
+            progressCircular.setProgressWithAnimation(max, 50L)
+        else
+            progressCircular.setProgressWithAnimation(max, edtDelay.text.toString().toLong())
     }
 
 
