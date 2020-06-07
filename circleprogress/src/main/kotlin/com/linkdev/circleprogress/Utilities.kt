@@ -22,7 +22,7 @@ object Utilities {
         val scale: Float = resources.getDisplayMetrics().density
         return dp * scale + 0.5f
     }
-    fun sp2px(resources: Resources, sp: Float): Float {
+    fun spToPx(resources: Resources, sp: Float): Float {
         val scale = resources.displayMetrics.scaledDensity
         return sp * scale
     }

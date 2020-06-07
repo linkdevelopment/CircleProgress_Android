@@ -60,7 +60,7 @@ limitations under the License.
                 android:layout_marginBottom="@dimen/margin_20"
                 android:hint="@string/max"
                 android:imeOptions="actionDone"
-                android:inputType="numberDecimal" />
+                android:inputType="number" />
 
             <EditText
                 android:id="@+id/edtProgress"

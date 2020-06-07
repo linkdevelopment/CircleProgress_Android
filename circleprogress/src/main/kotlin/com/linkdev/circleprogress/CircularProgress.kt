@@ -21,11 +21,12 @@ import android.graphics.*
 import android.text.TextPaint
 import android.text.TextUtils
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import androidx.annotation.FontRes
 import androidx.core.content.res.ResourcesCompat
-import com.linkdev.circleprogress.Utilities.sp2px
+import com.linkdev.circleprogress.Utilities.spToPx
 import java.util.*
 import kotlin.math.max
 import kotlin.math.min
@@ -56,20 +57,17 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     private var textColor: Int = Color.BLACK
 
 
-    private var mOuterStrokeWidth: Int =
-        0
+    private var mOuterStrokeWidth: Int = 0
 
-    private var mProgressStrokeWidth: Int =
-        0
+    private var mProgressStrokeWidth: Int = 0
 
-    private var mTextSize: Float =
-        0f
+    private var mTextSize: Float = 0f
 
-    private var mMax: Int =
-        DEFAULT_MAX
+    private var mMax: Int = DEFAULT_MAX
+
     private var mProgress: Float = 0f
-    private var circlePadding: Int =
-        0
+
+    private var circlePadding: Int = 0
 
     private var calculatedDefaultCirclePadding: Float = 0f
     private var calculatedDefaultStrokeWidth: Float = 0f
@@ -114,7 +112,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     /**
-     * init paints which we use to draw
+     * Initialize all paints objects
      */
     private fun initPainters() {
         initTextPaint()
@@ -193,7 +191,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     /**
-     * initialize the default values of th view (default padding - default text size - default stroke width )
+     * initialize the default values of the view (default padding - default text size - default stroke width )
      */
     private fun initDefaultValues() {
         calculatedDefaultCirclePadding = TypedValue.applyDimension(
@@ -284,7 +282,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     /**
-     * set the  Rects which we will draw inside it
+     * Sets the bounds to the different rectangles needed for the progress bar to draw
      */
     private fun setRects(maxStroke: Int) {
         setProgressRect(maxStroke)
@@ -294,7 +292,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     /**
-     * draw text inside its own rect and if it is very large to fit inside it we truncate it from end
+     * Draws text inside the progress bar, if the text is larger than the bounds of the circle progress, the text will be truncated
      */
     private fun drawText(canvas: Canvas?) {
 
@@ -303,15 +301,13 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
             canvas.height / 2 - (textPaint.descent() + textPaint.ascent()) / 2
 
         val width: Int = textRect.width().toInt()
-
-        val txt =
-            TextUtils.ellipsize(getText(), textPaint, width.toFloat(), TextUtils.TruncateAt.END)
+        val txt = TextUtils.ellipsize(getText(), textPaint, width.toFloat(), TextUtils.TruncateAt.END)
         canvas.drawText(txt, 0, txt.length, xPos, yPos, textPaint)
 
     }
 
     /**
-     * draw outer circle
+     * Draws the progress outer circle
      */
     private fun drawOuterStroke(canvas: Canvas?) {
         canvas?.drawOval(
@@ -320,7 +316,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     /**
-     * draw circle background
+     * Draws the progress circle background
      */
     private fun drawCircleBackGround(canvas: Canvas?) {
         canvas?.drawOval(
@@ -329,7 +325,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     /**
-     * draw progress arc
+     * Draws the progress arc
      */
     private fun drawProgressArc(canvas: Canvas?) {
         canvas?.drawArc(
@@ -339,7 +335,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     /**
-     * return the angle of the arc of the progress
+     * Used to retrieved the angle used to draw the arc of the progress
      */
     private fun getSweepAngle(): Float =
         (mProgress / mMax) * (FULL_CIRCLE_DEGREES * mProgressDirection.toFloat())
@@ -360,7 +356,8 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     /**
-     * set rect for draw text which must be small than the bagckground rect by circle padding value to avoid overlap between text and border
+     * Sets the text bounds.
+     * Text bounds should be smaller than the progress circle by circle padding to avoid overlapping between the text and the progress borders.
      */
     private fun setTextRect(maxStroke: Int) {
         textRect.set(
@@ -429,7 +426,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
                 } else {
                     String.format(
                         PERCENTAGE_VALUE,
-                        ((mProgress.div(mMax)) * 100).toString()
+                        ((mProgress.div(mMax)) * 100f).toString()
                     )
                 }
             }
@@ -488,10 +485,12 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         if (mProgress > mMax) {
             mProgress = mMax.toFloat()
         }
+
     }
 
     fun setProgress(progress: Float?) {
         setProgressValue(progress)
+        setMaxValue(mMax)
         postInvalidate()
     }
 
@@ -499,7 +498,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
      * fill the circle progress with the provided value but in incremental way by increase progress value by 1 each
      * provided delayMillis until reach the final value
      */
-    fun setProgressWithAnimation(maxProgress: Float, delayMillis: Long) {
+    fun startProgressAnimation(maxProgress: Float, delayMillis: Long) {
         mAnimationMaxProgress = maxProgress
         mAnimationDelayMillis = delayMillis
         if (!animating) {
@@ -520,14 +519,14 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
         }
     }
 
-    fun pauseAnimation() {
+    fun pauseProgressAnimation() {
         if (animating) {
             timer.cancel()
             animating = false
         }
     }
 
-    fun stopAnimation() {
+    fun stopProgressAnimation() {
         timer.cancel()
         animating = false
         mAnimationProgress = 0f
@@ -562,7 +561,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     fun setTextSize(textSize: Float) {
-        mTextSize = sp2px(context.resources, textSize)
+        mTextSize = spToPx(context.resources, textSize)
         postInvalidate()
     }
 
@@ -577,11 +576,11 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
             }
         } else
             mMax = 0
-        setProgressValue(mProgress)
     }
 
     fun setMax(max: Int?) {
         setMaxValue(max)
+        setProgressValue(mProgress)
         postInvalidate()
     }
 

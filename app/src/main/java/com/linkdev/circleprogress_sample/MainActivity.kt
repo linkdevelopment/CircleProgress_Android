@@ -21,14 +21,11 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import com.linkdev.circleprogress.ProgressDirection
@@ -99,10 +96,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setColorEditTextsListeners() {
-        edtProgressColor.setOnEditorActionListener(edtProgressColorActionListener)
-        edtStrokeColor.setOnEditorActionListener(edtStrokeColorActionListener)
-        edtBackgroundCircle.setOnEditorActionListener(edtBackgroundCircleColorActionListener)
-        edtTextColor.setOnEditorActionListener(edtTextColorActionListener)
+        edtProgressColor.addTextChangedListener(edtProgressColorTextWatcher)
+        edtStrokeColor.addTextChangedListener(edtStrokeColorTextWatcher)
+        edtBackgroundCircle.addTextChangedListener(edtBackgroundCircleColorTextWatcher)
+        edtTextColor.addTextChangedListener(edtTextColorActionListener)
     }
 
     private fun setColorRadioGroupsListeners() {
@@ -163,58 +160,80 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private var edtTextColorActionListener = object : TextView.OnEditorActionListener {
-        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                try {
-                    progressCircular.setTextColor(Color.parseColor("#${edtTextColor.text.toString()}"))
-                } catch (exc: Exception) {
-                    exc.printStackTrace()
-                }
-                return true
-            }
-            return false
+    private var edtTextColorActionListener: TextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
         }
-    }
-    private var edtBackgroundCircleColorActionListener = object : TextView.OnEditorActionListener {
-        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                try {
-                    progressCircular.setInnerCircleBackground(Color.parseColor("#${edtBackgroundCircle.text.toString()}"))
-                } catch (exc: Exception) {
-                    exc.printStackTrace()
-                }
-                return true
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            try {
+                if (!s.isNullOrEmpty())
+                    progressCircular.setTextColor(Color.parseColor("#${s}"))
+            } catch (exc: Exception) {
+                exc.printStackTrace()
             }
-            return false
+        }
+
+        override fun afterTextChanged(s: Editable) {
+
+        }
+
+    }
+    private var edtBackgroundCircleColorTextWatcher: TextWatcher = object : TextWatcher {
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            try {
+                if (!s.isNullOrEmpty())
+                    progressCircular.setInnerCircleBackground(Color.parseColor("#${s}"))
+            } catch (exc: Exception) {
+                exc.printStackTrace()
+            }
+        }
+
+        override fun afterTextChanged(s: Editable) {
+
         }
     }
 
-    private var edtStrokeColorActionListener = object : TextView.OnEditorActionListener {
-        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                try {
-                    progressCircular.setOuterStrokeColor(Color.parseColor("#${edtStrokeColor.text.toString()}"))
-                } catch (exc: Exception) {
-                    exc.printStackTrace()
-                }
-                return true
+    private var edtStrokeColorTextWatcher: TextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            try {
+                if (!s.isNullOrEmpty())
+                    progressCircular.setOuterStrokeColor(Color.parseColor("#${s}"))
+            } catch (exc: Exception) {
+                exc.printStackTrace()
             }
-            return false
+        }
+
+        override fun afterTextChanged(s: Editable) {
+
         }
     }
 
-    private var edtProgressColorActionListener = object : TextView.OnEditorActionListener {
-        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                try {
-                    progressCircular.setProgressStrokeColor(Color.parseColor("#${edtProgressColor.text.toString()}"))
-                } catch (exc: Exception) {
-                    exc.printStackTrace()
-                }
-                return true
+    private var edtProgressColorTextWatcher: TextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            try {
+                if (!s.isNullOrEmpty())
+                    progressCircular.setProgressStrokeColor(Color.parseColor("#${s}"))
+            } catch (exc: Exception) {
+                exc.printStackTrace()
             }
-            return false
+        }
+
+        override fun afterTextChanged(s: Editable) {
+
         }
     }
 
@@ -318,11 +337,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onPauseClick() {
-        progressCircular.pauseAnimation()
+        progressCircular.pauseProgressAnimation()
     }
 
     private fun onStopClick() {
-        progressCircular.stopAnimation()
+        progressCircular.stopProgressAnimation()
     }
 
     private fun onAnimateClick() {
@@ -332,9 +351,9 @@ class MainActivity : AppCompatActivity() {
             max = progressCircular.getMax().toFloat()
 
         if (TextUtils.isEmpty(edtDelay.text.toString()))
-            progressCircular.setProgressWithAnimation(max, 50L)
+            progressCircular.startProgressAnimation(max, 50L)
         else
-            progressCircular.setProgressWithAnimation(max, edtDelay.text.toString().toLong())
+            progressCircular.startProgressAnimation(max, edtDelay.text.toString().toLong())
     }
 
 
@@ -348,13 +367,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            if (!s.isNullOrEmpty())
-                if (s.toString().equals("."))
-                    progressCircular.setMax(0)
-                else
-                    progressCircular.setMax(s.toString().toInt())
-            else
+            if (!s.isNullOrEmpty()) {
+                progressCircular.setMax(s.toString().toInt())
+            } else
                 progressCircular.setMax(0)
+            if (!edtProgress.text.toString().isNullOrEmpty()) {
+                progressCircular.setProgress(edtProgress.text.toString().toFloat())
+            }
         }
     }
 

@@ -50,8 +50,8 @@ Usage for all attributes
 ![](images/animated_circle_progress.gif)
 
 #### Set Max
-# This attribute used to set the max value for the progress
-# its default value is 100
+This attribute is used to set the max value for the progress
+its default value is 100
 ```xml
  app:max="100"
 ```
@@ -62,8 +62,8 @@ Usage for all attributes
   progressCircular.setMax(100)
 ```
 #### Set inner circle background
-# This attribute used to set the background of the inner circle
-# its default value is transparent
+This attribute is used to set the background of the inner circle
+its default value is transparent
  ```xml
  app:innerCircleBackground="#ff0000"
 ```
@@ -77,7 +77,7 @@ Usage for all attributes
                     ))
 ```
 #### Set Outer Stroke Color
- This attribute used to set the color of un finished part of the progress
+ This attribute is used to set the color of un finished part of the progress
  its default value is gray
 ```xml
  app:outerStrokeColor="#ff0000"
@@ -87,7 +87,7 @@ Usage for all attributes
 ```
 
 #### Set Outer Stroke width
- This attribute used to set the width of un finished part of the progress
+ This attribute is used to set the width of un finished part of the progress
  its default value is 4dp
 ```xml
  app:outerStrokeWidth="5dp"
@@ -96,7 +96,7 @@ Usage for all attributes
   progressCircular.setOuterStrokeWidth(5)
 ```
 #### Set Progress
- This attribute used to set the progress value
+ This attribute is used to set the progress value
  its default value is 0
 ```xml
  app:progress="57"
@@ -110,7 +110,7 @@ also you can set progress with animation by the following
   progressCircular.setProgressWithAnimation(progress_value,millis_delay)
 ```
 #### Set Progress Direction
- This attribute used to set the drawing direction of the circle
+ This attribute is used to set the drawing direction of the circle
  either clockwise or anti clockwise the default is clockwise
 ```xml
  app:progressDirection="Clockwise"
@@ -126,7 +126,7 @@ app:progressDirection="Anticlockwise"
   progressCircular.setProgressDirection(ProgressDirection.ANTICLOCKWISE)
 ```
 #### Set Rounded Corners
- This attribute used to set if the progress should be rounded corners or not
+ This attribute is used to set if the progress should be rounded corners or not
  the default is false
 ```xml
  app:roundedCorners="true"
@@ -135,7 +135,7 @@ app:progressDirection="Anticlockwise"
   progressCircular.setProgressRoundedCorners(false)
 ```
 #### Set Progress Stroke Color
- This attribute used to set the color of the finished part of the progress
+ This attribute is used to set the color of the finished part of the progress
  its default value is black
 ```xml
  app:progressStrokeColor="#ff0000"
@@ -145,7 +145,7 @@ app:progressDirection="Anticlockwise"
 ```
 
 #### Set Progress Stroke Width
- This attribute used to set the width of finished part of the progress
+ This attribute is used to set the width of finished part of the progress
  its default value is 4dp
 ```xml
  app:progressStrokeThickness="5dp"
@@ -154,7 +154,7 @@ app:progressDirection="Anticlockwise"
   progressCircular.setProgressStrokeThickness(5)
 ```
 #### Start Angle
-This attribute used to set start point of drawing the progress it can be drawn from top,
+This attribute is used to set start point of drawing the progress it can be drawn from top,
 right, left and bottom the default value is top
 ```xml
  app:startAngle="Top"
@@ -184,7 +184,7 @@ or
   progressCircular.setStartAngle(StartAngle.RIGHT)
 ```
 #### Text Color
-This attribute used to set text color the default is black
+This attribute is used to set text color the default is black
 ```xml
  app:textColor="#000000"
 ```
@@ -192,7 +192,7 @@ This attribute used to set text color the default is black
   progressCircular.setTextColor(Color.Red)
 ```
 #### Text Size
-This attribute used to set text size the default is 10sp
+This attribute is used to set text size the default is 10sp
 ```xml
  app:textSize="12sp"
 ```
@@ -200,7 +200,7 @@ This attribute used to set text size the default is 10sp
   progressCircular.setTextSize(12f)
 ```
 #### Text Font
-This attribute used to set text font
+This attribute is used to set text font
 ```kotlin
   progressCircular.setTextFont(R.font.custom_font)
 ```
