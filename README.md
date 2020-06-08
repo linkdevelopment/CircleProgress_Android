@@ -15,7 +15,7 @@ below
 4. Right-click your app in project view and select "Open Module Settings"
 5. Click the "Dependencies" tab and then the '+' button
 6. Select "Module Dependency"
-7. Select "circleprogress" (not CircleProgress Project)
+7. Select "circleprogress" (not CircleProgress_Android Project)
 
 ## Usage
 How to use
