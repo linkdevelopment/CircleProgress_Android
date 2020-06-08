@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-Copyright 2020 Link Development
+Copyright (C) 2020 Link Development
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -68,7 +68,6 @@ limitations under the License.
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/margin_10"
                 android:layout_marginBottom="@dimen/margin_20"
-                android:layout_toStartOf="@+id/btnAnimate"
                 android:hint="@string/progress"
                 android:imeOptions="actionDone"
                 android:inputType="numberDecimal" />
@@ -76,16 +75,23 @@ limitations under the License.
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_20"
                 android:orientation="vertical">
 
+                <TextView
+                    style="@style/title_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:text="@string/animation" />
+
                 <EditText
-                    android:id="@+id/edtDelay"
+                    android:id="@+id/edtAnimationSpeed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_10"
-                    android:layout_marginBottom="@dimen/margin_20"
-                    android:hint="@string/delayHint"
-                    android:imeOptions="actionDone"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    android:hint="@string/animationSpeedHint"
                     android:inputType="number" />
 
                 <LinearLayout
@@ -96,16 +102,18 @@ limitations under the License.
                         android:id="@+id/btnAnimate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_10"
                         android:layout_weight="1"
-                        android:text="@string/startAnimation"
+                        android:text="@string/start"
                         android:textAllCaps="false" />
 
                     <Button
                         android:id="@+id/btnPauseAnimation"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_10"
                         android:layout_weight="1"
-                        android:text="@string/pauseAnimation"
+                        android:text="@string/pause"
                         android:textAllCaps="false" />
 
                     <Button
@@ -113,16 +121,16 @@ limitations under the License.
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/stopAnimation"
+                        android:text="@string/stop"
                         android:textAllCaps="false" />
                 </LinearLayout>
-
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_15"
+                android:layout_marginBottom="@dimen/margin_20"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -170,13 +178,13 @@ limitations under the License.
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_10"
-                android:text="@string/strokeThickness" />
+                android:text="@string/strokeWidth" />
 
             <SeekBar
                 android:id="@+id/sbStokeThickness"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_20"
                 android:max="@integer/maxThick"
                 android:min="@integer/minThick"
                 android:progress="1" />
@@ -192,7 +200,7 @@ limitations under the License.
                 android:id="@+id/sbProgressThickness"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_20"
                 android:max="@integer/maxThick"
                 android:min="@integer/minThick"
                 android:progress="5" />
@@ -205,7 +213,7 @@ limitations under the License.
                     android:id="@+id/chkRounded"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_10"
+                    android:layout_marginBottom="@dimen/margin_20"
                     android:layout_weight="1"
                     android:text="@string/rounded" />
 
@@ -223,13 +231,13 @@ limitations under the License.
                 android:id="@+id/spTextDisplay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_15" />
+                android:layout_marginBottom="@dimen/margin_20" />
 
             <EditText
                 android:id="@+id/edtText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_20"
                 android:hint="@string/enterText"
                 android:visibility="gone" />
 
@@ -244,16 +252,15 @@ limitations under the License.
                 android:id="@+id/sbFontSize"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_20"
                 android:max="@integer/maxFont"
                 android:progress="20" />
-
 
             <TextView
                 style="@style/title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_20"
                 android:text="@string/progressColor" />
 
             <RadioGroup
@@ -285,7 +292,8 @@ limitations under the License.
                 android:id="@+id/edtProgressColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/progressColor"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:hint="@string/progressColorHint"
                 android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxLines="1" />
@@ -324,10 +332,11 @@ limitations under the License.
             </RadioGroup>
 
             <EditText
+                android:layout_marginBottom="@dimen/margin_20"
                 android:id="@+id/edtStrokeColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/strokeColor"
+                android:hint="@string/strokeColorHint"
                 android:imeOptions="actionDone"
                 android:inputType="text" />
 
@@ -363,10 +372,11 @@ limitations under the License.
             </RadioGroup>
 
             <EditText
+                android:layout_marginBottom="@dimen/margin_20"
                 android:id="@+id/edtBackgroundCircle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/backgroundCircle"
+                android:hint="@string/circleBackGroundHint"
                 android:imeOptions="actionDone"
                 android:inputType="text" />
 
@@ -402,10 +412,11 @@ limitations under the License.
             </RadioGroup>
 
             <EditText
+                android:layout_marginBottom="@dimen/margin_20"
                 android:id="@+id/edtTextColor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/textColor"
+                android:hint="@string/textColorHint"
                 android:imeOptions="actionDone"
                 android:inputType="text" />
         </LinearLayout>

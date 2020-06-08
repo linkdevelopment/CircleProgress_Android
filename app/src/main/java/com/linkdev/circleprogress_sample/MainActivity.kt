@@ -1,5 +1,5 @@
 /**
-Copyright 2020 Link Development
+Copyright (C) 2020 Link Development
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -350,10 +350,10 @@ class MainActivity : AppCompatActivity() {
         } else
             max = progressCircular.getMax().toFloat()
 
-        if (TextUtils.isEmpty(edtDelay.text.toString()))
+        if (TextUtils.isEmpty(edtAnimationSpeed.text.toString()))
             progressCircular.startProgressAnimation(max, 50L)
         else
-            progressCircular.startProgressAnimation(max, edtDelay.text.toString().toLong())
+            progressCircular.startProgressAnimation(max, edtAnimationSpeed.text.toString().toLong())
     }
 
 

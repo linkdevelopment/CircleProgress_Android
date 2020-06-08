@@ -1,5 +1,5 @@
 /**
-Copyright 2020 Link Development
+Copyright (C) 2020 Link Development
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,11 +16,15 @@ limitations under the License.
 package com.linkdev.circleprogress
 
 import android.content.res.Resources
+import android.util.DisplayMetrics
+
+
+
 
 object Utilities {
     fun dpToPx(resources: Resources, dp: Float): Float {
-        val scale: Float = resources.getDisplayMetrics().density
-        return dp * scale + 0.5f
+        return dp * (resources
+            .displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
     }
     fun spToPx(resources: Resources, sp: Float): Float {
         val scale = resources.displayMetrics.scaledDensity

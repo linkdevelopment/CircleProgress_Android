@@ -1,5 +1,5 @@
 <!--
-Copyright 2020 Link Development
+Copyright (C) 2020 Link Development
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ limitations under the License.
     <string name="progressDirection">Progress Direction</string>
     <string name="antiClockWise">Anticlockwise</string>
     <string name="withClockWise">Clockwise</string>
-    <string name="strokeThickness">Stroke thickness</string>
+    <string name="strokeWidth">Stroke width</string>
     <string name="progressWidth">Progress width</string>
     <string name="rounded">Rounded corners</string>
     <string name="showDecimal">Show decimal</string>
@@ -33,17 +33,14 @@ limitations under the License.
     <string name="noText">No Text</string>
     <string name="percentage">Percentage</string>
     <string name="providedText">provided text</string>
-    <string name="progressColor">Progress Color(Hex color)</string>
     <string name="red">Red</string>
     <string name="green">Green</string>
     <string name="blue">Blue</string>
-    <string name="strokeColor">Outer stroke color(Hex color)</string>
     <string name="yellow">Yellow</string>
     <string name="cyan">Cyan</string>
     <string name="magneta">Magneta</string>
-    <string name="circleBackGround">Background circle(Hex color)</string>
     <string name="helloWorld">Hello World</string>
-    <string name="startAnimation">Start Animation</string>
+    <string name="start">Start</string>
     <string name="max">Max</string>
     <string name="textSize">Text Size</string>
     <string name="darkOrange">Dark Orange</string>
@@ -54,12 +51,20 @@ limitations under the License.
     <string name="persianGreen">Persian Green</string>
     <string name="earthYellow">Earth Yellow</string>
     <string name="skobeloff">Skobeloff</string>
-    <string name="backgroundCircle">Background circle</string>
-    <string name="textColor">Text Color(Hex color)</string>
+    <string name="progressColor">Progress Color</string>
+    <string name="strokeColor">Outer stroke color</string>
+    <string name="circleBackGround">Background circle</string>
+    <string name="textColor">Text Color</string>
+
+    <string name="progressColorHint">Progress Color(Hex color)</string>
+    <string name="strokeColorHint">Outer stroke color(Hex color)</string>
+    <string name="circleBackGroundHint">Background circle(Hex color)</string>
+    <string name="textColorHint">Text Color(Hex color)</string>
     <string name="maize">Maize</string>
     <string name="charcoal">Charcoal</string>
-    <string name="delayHint">default 50 milliseconds</string>
-    <string name="pauseAnimation">Pause</string>
-    <string name="stopAnimation">Stop</string>
+    <string name="animationSpeedHint">Speed in milli seconds (default is 50)</string>
+    <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
+    <string name="animation">Animation</string>
 
 </resources>
