@@ -262,8 +262,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
     }
 
     /**
-     * Sets custom font to the circle progress for drawing the text
-     * it take font res parameter for example R.font.custom_font
+     * Sets custom font family to the circle progress by using the sent font resource id
      */
     fun setTextFont(@FontRes font: Int) {
         textFont = ResourcesCompat.getFont(context, font)

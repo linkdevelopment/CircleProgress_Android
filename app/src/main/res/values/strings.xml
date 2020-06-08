@@ -62,9 +62,10 @@ limitations under the License.
     <string name="textColorHint">Text Color(Hex color)</string>
     <string name="maize">Maize</string>
     <string name="charcoal">Charcoal</string>
-    <string name="animationSpeedHint">Speed in milli seconds (default is 50)</string>
+    <string name="animationSpeedHint">Speed in milliseconds (default is 50)</string>
     <string name="pause">Pause</string>
     <string name="stop">Stop</string>
     <string name="animation">Animation</string>
+    <string name="pleaseEnterValidNumber">Please enter valid number</string>
 
 </resources>

@@ -26,6 +26,7 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import com.linkdev.circleprogress.ProgressDirection
@@ -368,7 +369,23 @@ class MainActivity : AppCompatActivity() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             if (!s.isNullOrEmpty()) {
-                progressCircular.setMax(s.toString().toInt())
+                try {
+                    if (s.toString().toLong() <= Int.MAX_VALUE)
+                        progressCircular.setMax(s.toString().toInt())
+                    else
+                        Toast.makeText(
+                            this@MainActivity,
+                            getString(R.string.pleaseEnterValidNumber),
+                            Toast.LENGTH_LONG
+                        ).show()
+                } catch (exc: Exception) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.pleaseEnterValidNumber),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
             } else
                 progressCircular.setMax(0)
             if (!edtProgress.text.toString().isNullOrEmpty()) {
@@ -388,8 +405,9 @@ class MainActivity : AppCompatActivity() {
             if (!s.isNullOrEmpty())
                 if (s.toString().equals("."))
                     progressCircular.setProgress(0f)
-                else
+                else {
                     progressCircular.setProgress(s.toString().toFloat())
+                }
             else
                 progressCircular.setProgress(0f)
         }

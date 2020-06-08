@@ -5,27 +5,10 @@ circular progress bars for Android
 ## Setup
 
 
-To import the Circle Progress library to Android Studio, there are two methods that can work.
+To import the Circle Progress library to Android Studio, use the method
+below
 
-## Method 1:
-1. Open your project in Android Studio
-2. Download the library (using Git, or a zip archive to unzip)
-3. Create a folder "subProject" in your project
-4. Copy and paste the circleprogress folder to your subProject folder
-5. On the root of your project directory create/modify the settings.gradle file. It should contain something like the following:
-```
-include 'MyApp', ':subProject:circleprogress'
-```
-6. gradle clean & build/close the project and reopen/re-import it.
-7. Edit your project's build.gradle to add this in the "dependencies" section:
-```
-dependencies {
-//...
-    implementation project(':subProject:circleprogress')
-}
-```
 
-## Method 2:
 1. Open your project in Android Studio
 2. Download the library (using Git, or a zip archive to unzip)
 3. Go to File > Import Module and import the library as a module
@@ -70,8 +53,7 @@ Usage for all attributes
         app:textSize="12sp" />
 ```
 ## Note to be update
-![](images/circle_progress.gif)
-![](images/animated_circle_progress.gif)
+![](images/circle_progress_sample.gif)
 
 #### Set Max
 This attribute is used to set the max value for the progress
@@ -131,7 +113,7 @@ Progress value is set as float
 ```
 also you can set progress with animation by the following
 ```kotlin
-  progressCircular.setProgressWithAnimation(progress_value,millis_delay)
+  progressCircular.startProgressAnimation(progress_value,animation_speed)
 ```
 #### Set Progress Direction
  This attribute is used to set the drawing direction of the circle
