@@ -2,6 +2,10 @@
 CircleProgress is a highly customizable lightweight library to create
 circular progress bars for Android
 
+![](images/circle_progress_sample_1.gif)
+![](images/circle_progress_sample_2.gif)
+![](images/circle_progress_sample_3.gif)
+
 ## Setup
 
 
@@ -52,9 +56,6 @@ Usage for all attributes
         app:textDisplay="ProgressPercentage"
         app:textSize="12sp" />
 ```
-## Note to be update
-![](images/circle_progress_sample.gif)
-
 #### Set Max
 This attribute is used to set the max value for the progress
 its default value is 100
