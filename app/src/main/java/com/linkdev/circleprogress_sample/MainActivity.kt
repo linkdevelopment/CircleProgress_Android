@@ -346,15 +346,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onAnimateClick() {
-        if (!edtProgress.text.toString().isNullOrEmpty()) {
-            max = edtProgress.text.toString().toFloat()
+        max = if (!edtProgress.text.toString().isNullOrEmpty()) {
+            edtProgress.text.toString().toFloat()
         } else
-            max = progressCircular.getMax().toFloat()
+            progressCircular.getMax().toFloat()
 
         if (TextUtils.isEmpty(edtAnimationSpeed.text.toString()))
-            progressCircular.startProgressAnimation(max, 50L)
+            progressCircular.startProgressAnimation(endProgressPoint = max,animationSpeed =  50L)
         else
-            progressCircular.startProgressAnimation(max, edtAnimationSpeed.text.toString().toLong())
+            progressCircular.startProgressAnimation(endProgressPoint = max,animationSpeed =  edtAnimationSpeed.text.toString().toLong())
     }
 
 

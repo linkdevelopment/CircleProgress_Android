@@ -114,8 +114,9 @@ Progress value is set as float
 ```
 also you can set progress with animation by the following
 ```kotlin
-  progressCircular.startProgressAnimation(progress_value,animation_speed)
+  progressCircular.startProgressAnimation(start_progress_value,end_progress_value,animation_speed)
 ```
+the default of the start progress value is 0
 #### Set Progress Direction
  This attribute is used to set the drawing direction of the circle
  either clockwise or anti clockwise the default is clockwise

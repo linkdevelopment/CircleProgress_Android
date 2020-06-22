@@ -517,11 +517,18 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
 
     /**
      * Uses animation to set the progress value
-     * @param progress is the progress value for the circle
+     * @param startProgressPoint is the start progress value for the circle
+     * @param endProgressPoint is the end progress value for the circle
      * @param animationSpeed is the time in milli seconds between each increment in the progress
      */
-    fun startProgressAnimation(progress: Float, animationSpeed: Long) {
-        mAnimationProgress = progress
+    fun startProgressAnimation(
+        startProgressPoint: Float = 0f,
+        endProgressPoint: Float,
+        animationSpeed: Long
+    ) {
+        mAnimationProgress = endProgressPoint
+        if (mAnimationTempProgress == 0f)
+            mAnimationTempProgress = startProgressPoint
         if (animationSpeed > 0)
             mAnimationSpeed = animationSpeed
         else
@@ -530,7 +537,7 @@ class CircularProgress(context: Context?, attrs: AttributeSet?) :
             timer = Timer()
             timer.schedule(object : TimerTask() {
                 override fun run() {
-                    if (mAnimationTempProgress in 0.0..mAnimationProgress.toDouble()) {
+                    if (mAnimationTempProgress in startProgressPoint.toDouble()..mAnimationProgress.toDouble()) {
                         setProgress(mAnimationTempProgress)
                         mAnimationTempProgress++
                         animating = true
