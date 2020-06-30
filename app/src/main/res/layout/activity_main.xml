@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+Copyright (C) 2020 Link Development
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_15"
+    tools:context=".MainActivity">
+
+
+    <com.linkdev.circleprogress.CircularProgress
+        android:id="@+id/progressCircular"
+        android:layout_width="@dimen/circle_width"
+        android:layout_height="@dimen/circle_height"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginVertical="@dimen/margin_20"
+        app:innerCircleBackground="@color/circleBg"
+        app:max="@integer/max"
+        app:outerStrokeColor="@color/persianGreen"
+        app:outerStrokeWidth="1dp"
+        app:progress="@integer/progress"
+        app:progressDirection="Clockwise"
+        app:progressStrokeColor="@color/terraCotta"
+        app:progressStrokeWidth="@dimen/stroke_5"
+        app:roundedCorners="false"
+        app:startAngle="Top"
+        app:textColor="@color/black"
+        app:textSize="@dimen/fontMedium" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_20"
+        android:background="@color/transparent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edtMax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:hint="@string/max"
+                android:imeOptions="actionDone"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/edtProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:hint="@string/progress"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/title_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:text="@string/animation" />
+
+                <EditText
+                    android:id="@+id/edtAnimationSpeed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin_10"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    android:hint="@string/animationSpeedHint"
+                    android:inputType="number" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/btnAnimate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_10"
+                        android:layout_weight="1"
+                        android:text="@string/start"
+                        android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/btnPauseAnimation"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/margin_10"
+                        android:layout_weight="1"
+                        android:text="@string/pause"
+                        android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/btnStopAnimate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/stop"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/title_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        android:text="@string/startAngle" />
+
+                    <Spinner
+                        android:id="@+id/spStartAngle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/title_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        android:text="@string/progressDirection" />
+
+                    <Spinner
+                        android:id="@+id/spDirection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <TextView
+                style="@style/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:text="@string/strokeWidth" />
+
+            <SeekBar
+                android:id="@+id/sbStokeThickness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:max="@integer/maxThick"
+                android:min="@integer/minThick"
+                android:progress="1" />
+
+            <TextView
+                style="@style/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:text="@string/progressWidth" />
+
+            <SeekBar
+                android:id="@+id/sbProgressThickness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:max="@integer/maxThick"
+                android:min="@integer/minThick"
+                android:progress="5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <CheckBox
+                    android:id="@+id/chkRounded"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_20"
+                    android:layout_weight="1"
+                    android:text="@string/rounded" />
+
+            </LinearLayout>
+
+
+            <TextView
+                style="@style/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_15"
+                android:text="@string/textDisplay" />
+
+            <Spinner
+                android:id="@+id/spTextDisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_20" />
+
+            <EditText
+                android:id="@+id/edtText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:hint="@string/enterText"
+                android:visibility="gone" />
+
+            <TextView
+                style="@style/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:text="@string/textSize" />
+
+            <SeekBar
+                android:id="@+id/sbFontSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:max="@integer/maxFont"
+                android:progress="20" />
+
+            <TextView
+                style="@style/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:text="@string/progressColor" />
+
+            <RadioGroup
+                android:id="@+id/rdgrpProgressColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rdbtnTerraCotta"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:layout_weight="1"
+                    android:text="@string/terraCotta" />
+
+                <RadioButton
+                    android:id="@+id/rdbtnDarkSeaGreen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:layout_weight="1"
+                    android:text="@string/darkSeaGreen" />
+
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/edtProgressColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_20"
+                android:hint="@string/progressColorHint"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLines="1" />
+
+            <TextView
+                style="@style/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:text="@string/strokeColor" />
+
+            <RadioGroup
+                android:id="@+id/rdgrpStrokeColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rdbtnSandyBrown"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:layout_weight="1"
+                    android:text="@string/sandyBrown" />
+
+                <RadioButton
+                    android:id="@+id/rdbtnPersianGreen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:layout_weight="1"
+                    android:text="@string/persianGreen" />
+
+            </RadioGroup>
+
+            <EditText
+                android:layout_marginBottom="@dimen/margin_20"
+                android:id="@+id/edtStrokeColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/strokeColorHint"
+                android:imeOptions="actionDone"
+                android:inputType="text" />
+
+            <TextView
+                style="@style/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:text="@string/circleBackGround" />
+
+            <RadioGroup
+                android:id="@+id/rdgrpBackgroundCircle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rdbtnEarthYellow"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:layout_weight="1"
+                    android:text="@string/earthYellow" />
+
+                <RadioButton
+                    android:id="@+id/rdbtnSkobeloff"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:layout_weight="1"
+                    android:text="@string/skobeloff" />
+            </RadioGroup>
+
+            <EditText
+                android:layout_marginBottom="@dimen/margin_20"
+                android:id="@+id/edtBackgroundCircle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/circleBackGroundHint"
+                android:imeOptions="actionDone"
+                android:inputType="text" />
+
+            <TextView
+                style="@style/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_10"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:text="@string/textColor" />
+
+            <RadioGroup
+                android:id="@+id/rdgrpTextColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rdbtnMaize"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:layout_weight="1"
+                    android:text="@string/maize" />
+
+                <RadioButton
+                    android:id="@+id/rdbtnCharcoal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:layout_weight="1"
+                    android:text="@string/charcoal" />
+            </RadioGroup>
+
+            <EditText
+                android:layout_marginBottom="@dimen/margin_20"
+                android:id="@+id/edtTextColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/textColorHint"
+                android:imeOptions="actionDone"
+                android:inputType="text" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2020 Link Development
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<resources>
+    <color name="colorPrimary">#264653</color>
+    <color name="colorPrimaryDark">#23404b</color>
+    <color name="colorAccent">#babb74</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="gray">#797474</color>
+    <color name="green">#00ff00</color>
+    <color name="blue">#0000ff</color>
+    <color name="red">#ff0000</color>
+    <color name="circleBg">#07000000</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="terraCotta">#E76F51</color>
+    <color name="sandyBrown">#F4A261</color>
+    <color name="earthYellow">#EFB366</color>
+    <color name="maize">#E9C46A</color>
+    <color name="darkSeaGreen">#8AB17D</color>
+    <color name="persianGreen">#2A9D8F</color>
+    <color name="skobeloff">#287271</color>
+    <color name="charcoal">#264653</color>
+</resources>
