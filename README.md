@@ -8,7 +8,7 @@ circular progress bars for Android
 
 ## Setup
 
-Gradle:
+Either use Gradle:
 ```
 implementation 'com.linkdev.circleprogress:circleprogress:1.0.0'
 ```
