@@ -16,6 +16,33 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+ext {
+    bintrayRepo = "CircleProgress"
+    bintrayName = "com.linkdev.circleprogress"
+    libraryName = "circleprogress"
+
+    libraryDescription = 'CircleProgress is a highly customizable lightweight library to create\n' +
+            'circular progress bars for Android'
+
+    publishedGroupId = 'com.linkdev.circleprogress'
+    artifact = 'circleprogress'
+    libraryVersion = '1.0.0'
+
+
+    siteUrl = 'https://github.com/linkdevelopment/CircleProgress_Android'
+    gitUrl = 'https://github.com/linkdevelopment/CircleProgress_Android.git'
+
+    developerId = 'linkdev-libraries'
+    developerName = 'Link Development'
+    developerEmail = 'linkdev.libraries@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
 
 android {
     compileSdkVersion 29
@@ -37,11 +64,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets{
+    sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 }
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -51,3 +77,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
+repositories {
+    mavenCentral()
+}
+if (project.rootProject.file('local.properties').exists()) {
+    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+}
+
