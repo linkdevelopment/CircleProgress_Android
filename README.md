@@ -8,18 +8,19 @@ circular progress bars for Android
 
 ## Setup
 
-
-To import the Circle Progress library to Android Studio, use the method
-below
-
-
-1. Open your project in Android Studio
-2. Download the library (using Git, or a zip archive to unzip)
-3. Go to File > Import Module and import the library as a module
-4. Right-click your app in project view and select "Open Module Settings"
-5. Click the "Dependencies" tab and then the '+' button
-6. Select "Module Dependency"
-7. Select "circleprogress" (not CircleProgress_Android Project)
+Gradle:
+```
+implementation 'com.linkdev.circleprogress:circleprogress:1.0.0'
+```
+or Maven:
+```
+<dependency>
+  <groupId>com.linkdev.circleprogress</groupId>
+  <artifactId>circleprogress</artifactId>
+  <version>1.0.0</version>
+  <type>pom</type>
+</dependency>
+```
 
 ## Usage
 How to use
