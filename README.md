@@ -1,4 +1,9 @@
 # CircleProgress
+
+[![Platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html)
+![API](https://img.shields.io/badge/Min--SDK-21-yellowgreen)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+
 CircleProgress is a highly customizable lightweight library to create
 circular progress bars for Android
 
